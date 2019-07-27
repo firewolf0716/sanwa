@@ -1,0 +1,85 @@
+@charset "utf-8";
+
+#jigyomokuteki,
+#kigyoushimei,
+section#rinen {
+    min-height: 38vh;
+    background-size: cover!important;
+    background-position-x: center!important;
+}
+
+@media screen and (max-width:768px){
+  section#rinen{
+    background-position:center left 31% !important;
+  }
+}
+
+.vc_row.wpb_row.vc_row-fluid.maxWidth.A30 .wpb_wrapper {
+    text-align: right;
+}
+.vc_row.wpb_row.vc_row-fluid.maxWidth.A29 h2.style02,
+.vc_row.wpb_row.vc_row-fluid.maxWidth.A30 h2.style02 {
+    background: rgba(0,0,0,.3);
+    display: inline-block;
+    padding: .5rem 1rem;
+    color: #fff;
+}
+.vc_row.wpb_row.vc_row-fluid.maxWidth.A30 .wpb_column {
+  padding: 0 0rem;
+}
+
+.A02-01 h4.style02:before,
+.A02-01_inner h4.style02:before{
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background-image: url(/wp-content/uploads/2019/06/A02-01.png);
+  background-size: contain;
+  vertical-align: middle;
+  background-repeat:no-repeat;
+  margin-right: 0.4rem;
+  background-color: transparent;
+  margin-top: -5px;
+}
+
+
+
+
+
+/************************************/
+/******************TB****************/
+/************************************/
+@media screen and (max-width:768px){
+
+
+}
+
+
+
+/************************************/
+/******************SP****************/
+/************************************/
+@media screen and (max-width:480px){
+
+.A29 .A29Inner_row .co1 {
+    /* width: 70%; */
+    padding: 0;
+}
+.vc_row.wpb_row.vc_row-fluid.maxWidth.A30 .wpb_wrapper {
+    text-align: justify;
+}
+.A29 .A29Inner_row .co1 p ,
+.A30 .A30Inner_row .co1 p {
+    display: inline;
+    text-align: justify!important;
+    text-shadow: 1px 1px 1px rgba(255,255,255,1);
+}
+.A30 .A30Inner_row .co1 {
+    width: 100%;
+}
+.A29 .A29Inner_row .co1 {
+    width: 100%;
+}
+}
+

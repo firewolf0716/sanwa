@@ -1,0 +1,126 @@
+@charset "utf-8";
+
+section .maxWidth{
+  max-width:1024px;
+}
+
+
+/*元Style.css ココロトソウ切り分けのため移動*/
+/*A01*/
+.A01 h2.style02,
+.A01_inner h2.style02 {
+    border: none;
+    text-align: center;
+    font-size: 2rem;
+    letter-spacing: 0.3rem;
+}
+
+
+@media screen and (min-width:481px){
+  /*改行がで崩れるためスマホのときはつけない*/
+  .A01_inner h2.style02::before,
+  .A01 h2.style02::before{
+      content:"";
+      height: 18px;
+      width:1px;
+      background-color: #124692;
+      display: inline-block;
+      transform: skew(-45deg);
+      margin-right: 2rem;
+  }
+  .A01_inner h2.style02::after,
+  .A01 h2.style02::after{
+      content:"";
+      height: 18px;
+      width:1px;
+      background-color: #124692;
+      display: inline-block;
+      transform: skew(-45deg);
+      margin-left: 2rem;
+  }
+}
+.notice{
+  text-align:center;
+}
+
+
+
+
+.listBox{
+  margin:0 -0.5rem;
+}
+.listBox > .listItem{
+  width:calc((100% / 3) * 1 - 0.01px);
+  padding:0 0.5rem;
+  margin-top:2rem;
+}
+@media screen and (max-width:768px){
+  .listBox > .listItem{
+    width:50%;
+  }
+}
+
+@media screen and (max-width:480px){
+  .listBox{
+    margin:0;
+  }
+  .listBox > .listItem{
+    width:100%;
+    padding:0;
+  }
+}
+.ellipsisText{
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  width: 100%;
+}
+
+
+.pagination {
+    display: flex;
+    width:100%;
+    justify-content: center;
+    clear:both;
+    padding:20px 0;
+    margin: 0 auto; 
+    position:relative;
+    line-height:13px;
+}
+
+.pagination span, .pagination a {
+    display: block;
+    float: left;
+    margin: 2px 0.4rem 2px 0.4rem;
+    padding: 0.53rem 0.66rem 0.53rem 0.66rem;
+    text-decoration: none;
+    width: auto;
+    color: #707070;
+    font-size: 14px;
+    line-height: 14px;
+    background: #fff;
+    border: 1px solid #707070;
+}
+
+.Pc .pagination a:hover{
+    color:#fff;
+    background: #707070;
+}
+
+.pagination .current{
+    background: #707070;
+    color:#fff;
+}
+
+
+
+
+
+
+.pageLink > div{
+  width:50%;
+  text-align:center;
+}
+.pageLink * {
+  color:inherit;
+}

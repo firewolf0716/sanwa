@@ -1,0 +1,36 @@
+@charset "utf-8";
+
+
+
+
+@media screen and (max-width:900px){
+	.btnWrapper .vc_row.wpb_row.vc_inner.vc_row-fluid>div {
+	    width: 50%;
+	}
+}
+/************************************/
+/******************TB****************/
+/************************************/
+@media screen and (max-width:768px){
+	.btnWrapper .vc_row.wpb_row.vc_inner.vc_row-fluid>div {
+	    width: calc(33.333% - .1px);
+	}
+}
+
+/************************************/
+/******************SP****************/
+/************************************/
+@media screen and (max-width:480px){
+	.btnWrapper .vc_row.wpb_row.vc_inner.vc_row-fluid>div {
+	    width: 100%;
+	}
+	.A27 .A27Inner_row>div {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+#osakaHQ .A27 .A27Inner_row>div {
+    margin-bottom: 0rem;
+}
+#osakaHQ .A27 .A27Inner_row .co2 {
+ display: none;
+}

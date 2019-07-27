@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html <?php language_attributes(); ?> class="no-js no-svg">
+
+<head>
+  <meta charset="<?php bloginfo( 'charset' ); ?>">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <?php if (is_mobile()) { ?>
+  <meta name="format-detection" content="telephone=no,address=no,email=no">
+  <?php } else {
+}?>
+  <link rel="profile" href="http://gmpg.org/xfn/11">
+  <?php wp_head(); ?>
+</head>
+
+<body <?php body_class(); ?>>
+  <script>
+    document.body.className += " " + platform.name.replace(/ |\/|\./g, "-") + " b" + platform.version.replace(/ |\/|\./g, "-") + " " + platform.os.family.replace(/ |\/|\./g, "-") + " o" + platform.os.version.replace(/ |\/|\./g, "-");
+    if (!/(iOS|Android)/.test(document.body.className)) {
+      document.body.className += " Pc ";
+    }
+
+  </script>
+  <header id="masthead" class="site-header" role="banner">
+    <div class="site-branding">
+      <?php
+
+          if ( is_front_page() || is_home() ) : //topページの場合、サイト名をH1にする ?>
+
+        <h1 class="site-title">
+          <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+
+              <?php
+                $get_the_logo_img_url = get_the_logo_img_url();
+                $description = get_bloginfo( 'description', 'display' );
+
+                if(empty($get_the_logo_img_url)){//ロゴ未設定時
+                  bloginfo( 'name' );
+                  }
+                else{//ロゴ設定時
+                  echo '<img src="'. get_the_logo_img_url() . '" alt="' . $description . '" />';
+                  }
+              ;?>
+              </a>
+        </h1>
+
+        <?php else ://topページ以外の場合 ?>
+
+        <p class="site-title">
+          <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+
+              <?php
+
+              $tempIMG=get_the_logo_img_url();
+              if (empty($tempIMG)){
+                bloginfo( 'name' );
+              }
+              else{
+                echo' <img src="' . get_the_logo_img_url() .'" alt="" />';
+              }
+              ?>
+
+
+              </a>
+        </p>
+
+        <?php endif;
+
+          $description = get_bloginfo( 'description', 'display' );
+          if ( $description || is_customize_preview() ) : ?>
+        <p class="site-description">
+          <?php echo $description; ?>
+        </p>
+        <?php endif;
+        ?>
+    </div>
+    <!-- .site-branding -->
+
+      <!--menu-->
+      <div class="menu">
+        <div class="head_logo">
+          <a href="<?php echo home_url(); ?>" ><img class="imgRes" src="<?php echo get_the_logo_img_url();?>"></a>
+        </div>
+        <div class="headMenuBox">
+          <div class="menuWrap close">
+          <?php wp_nav_menu( array(
+                  'theme_location'=>'globalmenu',
+                  'container'     =>'',
+                  'menu_class'    =>'',
+                  'items_wrap'    =>'<ul id="main-nav" class="menu">%3$s</ul>'));
+          ?>
+          </div>
+        </div>
+
+        <?php echo do_shortcode( '[sns]' ) ?>
+
+        <div class="menuBtn">
+          <div class="menuBtnInner">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+
+
+
+  </header>
+  <!-- .site-header -->
+
+  <!-- breadcrumb  -->
+  <div id="breadcrumb">
+    <div class="breadcrumbWrapper">
+      <?php breadcrumb(); ?>
+    </div>
+  </div>
+
+

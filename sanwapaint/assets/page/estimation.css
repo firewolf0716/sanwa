@@ -1,0 +1,882 @@
+@charset "utf-8"; /*BEGIN Simple Estimation Page*/
+.estimation_title p {
+    font-size: 19px;
+    line-height: 136px;
+}
+
+.esti_main_form {
+    border-top: 1px solid #707070;
+    border-radius: 0;
+    margin-bottom: 1rem;
+    border-left: transparent;
+    border-right: transparent;
+    border-bottom: transparent;
+}
+
+.esti_form_title {
+    border-bottom: 1px solid #707070;
+    /* background-color: #f4f4f4; */
+    text-align: center;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    padding: 1.1rem 0;
+}
+
+
+.tab_panel .esti_form_title p {
+    font-size: 1.15rem;
+    /* line-height: 75px; */
+    text-align: center;
+}
+.tab_panel .esti_form_title p strong{
+    font-weight:normal
+
+}
+.esti_form_body {
+    padding: 2rem 0 1rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.esti_form_item {
+    display: flex;
+    width: 50%;
+    flex-wrap: wrap;
+    padding: 0 .5rem;
+    margin-bottom: 3rem;
+    margin-top: 1rem;
+}
+
+.esti_form_label {
+    /* float: left; */
+    text-align: center;
+    font-size: .875rem;
+}
+
+.esti_form_item.left .esti_form_label {
+    width: 50%;
+}
+
+.esti_form_item.right .esti_form_label {
+    width: 30%;
+}
+
+.esti_form_label > label {
+    line-height: 72px;
+    font-size: 1.1rem;
+    letter-spacing: 0;
+    font-weight: bold;
+}
+
+.esti_form_input {
+    float: left;
+    font-size: 1rem;
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    padding-left: .625rem;
+    padding-right: -0.075rem;
+    position: relative;
+}
+
+.esti_form_item.left .esti_form_input {
+    width: 50%;
+}
+
+.esti_form_item.right .esti_form_input {
+    width: 70%;
+}
+
+.esti_form_input select {
+    width: 100%;
+    height: 50px;
+    padding: 0 0 0 .5rem;
+    font-weight: 500;
+    /* -webkit-appearance: none; */
+    -moz-appearance: none;
+    appearance: none;
+    font-size: 1.1rem;
+}
+
+.esti_form_input:after {
+    /* content: "\f107 "; */
+    font-family: FontAwesome;
+    color: #707070;
+    position: absolute;
+    right: 2%;
+    top: 33%;
+    z-index: 1;
+    width: 10%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.esti-arrow-box {
+    padding: 50px 0;
+    text-align: center;
+}
+
+.arrow-down {
+    margin: 0 auto;
+    width: 0;
+    height: 0;
+    border-left: 110px solid transparent;
+    border-right: 110px solid transparent;
+    border-top: 60px solid #65ace9;
+}
+
+.esti_but_area {
+    text-align: center;
+    margin-bottom: 139px;
+}
+
+.esti-search-btn {
+    width: 53%;
+    background-color: #007feb;
+    color: #fff;
+    font-size: 26px;
+    letter-spacing: 1px;
+    line-height: 78px;
+    border: 0;
+    border-radius: 5px;
+}
+
+.esti-search-btn:focus {
+    outline: 0;
+}
+
+.esti-disable-btn {
+    background-color: rgb(221, 221, 221);
+}
+
+/*END Simple Estimation Page*/
+/*BEGIN Simple Estimation Result Page*/
+.esti_resul_page_title {
+    padding-top: 30px;
+}
+
+.esti_resul_page_title p {
+    font-size: 19px;
+    line-height: 79px;
+}
+
+.price_title {
+    border-bottom: 2px solid #b7b7b7 !important;
+    padding-left: 12px !important;
+    font-size: 16px !important;
+}
+
+.price_title:before {
+    display: none !important;
+}
+
+.price_container {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.price_cond {
+    padding-top: 16px;
+    padding: 01rem;
+}
+
+.condi_item {
+    /* float: left; */
+    width: 100%;
+    display: flex;
+    flex-wrap:wrap;
+}
+.condi_item>p {
+    width:calc(50% - .1px);
+}
+
+.condi_item p {
+    font-size: 16px;
+    line-height: 28px;
+    letter-spacing: 1px;
+}
+
+.price_body {
+    padding-top: 1rem;
+    padding-bottom: 4rem;
+}
+
+.price_figure {
+    width: 20%;
+    float: left;
+    position: relative;
+    border: 2px solid #e5e5e5;
+}
+
+.price_figure:before {
+    content: "";
+    display: block;
+    margin-top: 100%;
+}
+
+.figure_content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    color: #fff;
+    background: transparent;
+    padding: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    margin: 0;
+    padding: 15% 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.figure_content img {
+    height: 100%;
+    width: auto;
+}
+
+.price_sub {
+    width: 60%;
+    float: none;
+    padding: 0;
+}
+
+.sub_condi  {
+    display:flex;
+    border-bottom: 1px solid #333;
+    margin-top: 0.7rem;
+    flex-wrap: wrap;
+}
+
+.sub_condi p {
+    font-size: 1rem;
+    line-height: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-right: 0;
+    padding: 0 .25rem  .5rem;
+    width: calc(50% -  .1px);
+}
+
+.sub_price {
+    font-size: 1.2rem;
+    line-height: 42px;
+    margin-bottom: 0.7rem;
+    padding: 0 .5rem;
+}
+
+.sub_price span {
+    font-weight: bold;
+    color: #0075ae;
+    font-size: 30px;
+    letter-spacing: 2px;
+    color: inherit;
+}
+
+.price_total {
+    width: calc(40% - .1px);
+    padding-right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.total_val {
+    width: 100%;
+    border: 1px solid #00aeeb;
+    border-radius: 5px;
+    padding: 0;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #008bd5;
+    min-height: 11rem;
+}
+
+.total_title {
+    font-size: 1.5rem;
+    letter-spacing: 4px;
+    display: block;
+    margin-bottom: .5rem;
+    font-weight: bold;
+    width: 10rem;
+    margin: 0 auto 1rem;
+    background-color: #008bd5;
+    border: double 6px #fff;
+    color: #fff;
+}
+
+.total_value {
+    font-size: 2.5rem;
+    color: #ffffff;
+    font-weight: bolder;
+    letter-spacing: 4px;
+    line-height: 39px;
+}
+
+.total_currency {
+    font-size: 18px;
+    color: #fff;
+}
+
+.price_ask {
+    padding: 7px 0;
+}
+
+.total_ask {
+    width: 33%;
+    margin: 0 auto;
+}
+
+.total_ask button {
+    width: 100%;
+    font-size: 19px;
+    line-height: 52px;
+    color: #fff;
+    background-color: #007feb;
+    border: 0;
+    border-radius: 4px;
+    letter-spacing: 3px;
+}
+
+.total_ask button i {
+    color: #fff;
+    margin-right: 4px;
+}
+/*END Simple Estimation Result Page*/
+/*BEGIN price letter part*/
+.price_letter {
+    border: 1px solid #b7b7b7;
+    padding: 1rem;
+}
+
+.price_letter p {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-align: left;
+    border-left: transparent;
+    border-radius: tra;
+}
+
+.price_letter p:before {
+    content: "";
+    display: inline-block;
+    transform: translateY(1px);
+    width: 0.8rem!important;
+    height: 0.8rem !important;
+    background-color: #3a4a50 !important;
+    margin-left: .1rem;
+    margin-right: 0.3rem !important;
+}
+
+.estimationInner{
+    margin:1rem 0;
+}
+.toryorank,
+.toryoryokin {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+}
+body p.gaiheki2,
+body p.yane2 {
+    font-size: 1rem;
+    margin-top: 0.6rem;
+}
+.toryoryokin .image{
+    margin-bottom:1rem;
+}
+
+.toryoryokin h4{
+    margin-top:.5rem;
+}
+
+
+.esti_form_label > label::before{
+    content:none;
+}
+/*END price letter part*/
+/*Responsive*/
+@media (max-width: 800px) {
+
+.page-simple-estimation-result .total_value {
+    font-size: 2.1rem;
+    color: #ffffff;
+    font-weight: bolder;
+    letter-spacing: 4px;
+    line-height: 39px;
+}
+.sub_condi p {
+
+    width: 100%;
+}
+
+.co1.wpb_column.vc_column_container.vc_col-sm-3 {
+    display: none;
+}
+
+.co3.wpb_column.vc_column_container.vc_col-sm-3 {
+    display: none;
+}
+}
+
+@media  only screen and (max-width: 768px) {
+.price_total{
+    width: 100%;
+    padding: 0;
+}
+.price_sub {
+    width: 100%;
+}
+    .esti_form_item {
+        width: calc(50% - .1px)!important;
+    }
+}
+
+
+
+@media only screen and (max-width : 480px) {
+    .esti_form_title p {
+        font-size: 13px;
+    }
+
+    .esti_form_body {
+        padding: 10px;
+    }
+
+    .esti_form_label {
+        font-size: 12px;
+    }
+
+    .esti_form_label > label {
+        line-height: 40px;
+    }
+
+    .esti_form_input {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .esti_form_input select {
+        height: 30px;
+        font-size: 1rem;
+    }
+
+    .esti_form_input:after {
+        top: 18%;
+    }
+
+    .esti-search-btn {
+        font-size: 13px;
+        line-height: 48px;
+    }
+
+    .arrow-down {
+        border-left: 55px solid transparent;
+        border-right: 55px solid transparent;
+        border-top: 30px solid #65ace9;
+    }
+
+    .sub_price {
+    padding: 0 ;
+}
+
+}
+
+/*simple estimation*/
+/*.tab_wrap {
+    width: 500px;
+    margin: 80px auto;
+}
+*/
+input[type="radio"] {
+    display: none;
+}
+
+.tab_area {
+    font-size: 0;
+    margin: 0;
+}
+
+.tab_area label {
+    width: calc(100% / 3 - 1rem - 2px);
+    margin: 0 .5rem;
+    display: inline-block;
+    padding: .875rem 0;
+    color: #fff;
+    background: #A7D8E9;
+    text-align: center;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: ease 0.2s opacity;
+}
+
+.tab_area label:hover {
+    opacity: 0.5;
+}
+
+.panel_area {
+    background: #fff;
+}
+
+.tab_panel {
+    width: 100%;
+    padding: 3rem 0 0;
+    display: none;
+}
+
+.tab_panel p.gaiheki,
+.tab_panel p.yane {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-align: left;
+    border-left: transparent;
+    border-radius: tra;
+}
+
+.tab_panel p {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-align: left;
+    border-left: transparent;
+    border-radius: tra;
+}
+
+#tab1:checked ~ .tab_area .tab1_label {
+    background: #0083D2;
+    color: #fff;
+    position:relative;
+}
+
+#tab1:checked ~ .tab_area .tab1_label:after {
+        content: "";
+        position:absolute;
+        width: 0;
+        height: 0;
+        bottom:-1rem;
+        left:calc(50% - 1rem);
+
+        border-style: solid;
+        border-width: 1rem 1rem 0 1rem;
+        border-color: #0083D2 transparent transparent transparent;
+}
+
+#tab1:checked ~ .panel_area #panel1 {
+    display: block;
+}
+
+#tab2:checked ~ .tab_area .tab2_label {
+    background: #0083D2;
+    color: #fff;
+    position:relative;
+}
+
+#tab2:checked ~ .tab_area .tab2_label:after {
+        content: "";
+        position:absolute;
+        width: 0;
+        height: 0;
+        bottom:-1rem;
+        left:calc(50% - 1rem);
+
+        border-style: solid;
+        border-width: 1rem 1rem 0 1rem;
+        border-color: #0083D2 transparent transparent transparent;
+}
+
+#tab2:checked ~ .panel_area #panel2 {
+    display: block;
+}
+
+#tab3:checked ~ .tab_area .tab3_label {
+    background: #0083D2;
+    color: #fff;
+    position:relative;
+}
+
+#tab3:checked ~ .tab_area .tab3_label:after {
+        content: "";
+        position:absolute;
+        width: 0;
+        height: 0;
+        bottom:-1rem;
+        left:calc(50% - 1rem);
+
+        border-style: solid;
+        border-width: 1rem 1rem 0 1rem;
+        border-color: #0083D2 transparent transparent transparent;
+}
+
+
+
+#tab3:checked ~ .panel_area #panel3 {
+    display: block;
+}
+
+div#panel1 .yaneToryo,
+div#panel1 .yane {
+    display: none;
+}
+div#panel3 .gaihekiToryo,
+div#panel3 .gaiheki {
+    display: none;
+}
+.esti_resul_page_title,
+.estimation_title {
+    display: none;
+}
+
+.errmessage{
+    width:100%;
+    margin-top: -3.5rem;
+}
+
+.gaihekiryokin span {
+    color: #0075ae;
+    font-size: 3rem;
+    display: block;
+    text-align: left;
+}
+
+ .price_body {
+    padding-top: 0;
+    padding-bottom: 4rem;
+}
+.yaneryokin span {
+    color: #009688;
+    font-size: 3rem;
+    display: block;
+    text-align: left;
+}
+.note p {
+    letter-spacing: 0;
+}
+
+
+#no_alert p{
+    margin: 10px auto;
+    color: red;
+    font-size: 1.2rem;
+}
+@media screen and (max-width:480px){
+    #no_alert p{
+        font-size: 0.9rem;
+    }
+}
+
+
+
+
+h3.label{
+    width:100%;
+    border-bottom: 1px solid #3a4a50;
+    padding-bottom: .3rem;
+    margin-bottom: .3rem;
+    letter-spacing: 0;
+}
+
+
+.step p {
+    font-size: 1.1rem;
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+    color: #0083d2;
+}
+
+
+.page-simple-estimation-result .total_value {
+    font-size: 3rem;
+    color: #ffffff;
+    font-weight: bolder;
+    letter-spacing: 4px;
+    line-height: 39px;
+}
+.condi_item {
+    float: none;
+    width: 100%;
+}
+
+ span.label{
+     font-size: 1.2rem;
+     color: inherit;
+     display: block;
+     text-align: left;
+     margin-top: 1rem;
+ }
+ span.yen{
+     font-size: 1.2rem;
+     color: #3a4a50;
+     display: inline;
+ }
+.main_panel_border {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 0rem;
+}
+
+.main_content_pane {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 0rem;
+}
+@media only screen and (max-width : 768px){
+
+.co1.wpb_column.vc_column_container.vc_col-sm-2,
+.co3.wpb_column.vc_column_container.vc_col-sm-2{
+    display: none
+}
+.yaneryokin span,
+    .gaihekiryokin span {
+    width: 340px;
+    margin:auto;
+}
+
+.price_body {
+    padding-top: 0;
+    padding-bottom: 2rem;
+}
+.vc_btn3-container.vc_btn3-center .vc_btn3-block.vc_btn3-size-md, .fra_baseBtn {
+    font-size: 1.4rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.price_sub {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.price_sub>div {
+    width:calc(50% - .1px);
+}
+
+.sub_condi {
+    display: flex;
+    border-bottom: transparent;
+    flex-wrap: wrap;
+}
+
+.sub_condi p {
+    display: inline-block;
+    padding-bottom: 0;
+    height: 1.5rem;
+    line-height: 1.5rem;
+}
+.co1.wpb_column.vc_column_container.vc_col-sm-4,
+.co3.wpb_column.vc_column_container.vc_col-sm-4{
+    display: none
+}
+}
+
+@media only screen and (max-width : 480px) {
+.condi_item>p {
+    float: none;
+    width: 100%;
+}
+
+.price_sub>div {
+    width:100%
+}
+.sub_condi {
+    display: flex;
+    border-bottom: 1px solid #333;
+    padding-bottom:0.5rem;
+    margin-bottom:.5rem
+}
+.sub_condi p{
+   padding:0 
+}
+.price_cond {
+    padding: 01rem 0;
+}
+.maxWidth768{
+    padding:0;
+}
+body p.gaiheki2, body p.yane2 {
+    font-size: 0.9rem;
+    margin-top: 0.6rem;
+    margin-bottom: .5rem;
+}
+
+.vc_btn3-container.vc_btn3-center .vc_btn3-block.vc_btn3-size-md, .fra_baseBtn {
+    font-size: 1.2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    letter-spacing:0;
+}
+
+.tab_panel .esti_form_title p {
+    font-size: 1.0rem;
+    /* line-height: 75px; */
+    text-align: center;
+}
+.yaneryokin span.label,
+.gaihekiryokin span.label {
+       text-align:left;
+       font-size: 1.2rem;
+}
+.yaneryokin span,
+.gaihekiryokin span {
+    text-align: center;
+    font-size: 2.2rem;
+}
+span.yen{
+    font-size:1.2rem;
+}
+.page-simple-estimation-result .total_value{
+    font-size: 2.3rem;
+}
+
+
+.esti_form_item {
+    width: 100%!important;
+    padding: 0;
+    margin-bottom: 2rem;}
+
+
+.toryoryokin h4 {
+    margin-top: .2rem;
+}
+
+    .esti_form_item.yaneToryo + .rem5{
+        height:auto !important;
+        min-height: 4rem;
+        margin-top: -2.5rem;
+    }
+}
+
+
+.width768 {
+    margin: 0 auto 3rem;
+    max-width: 768px;
+}
+
+.width768 .price_letter p {
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.price_letter {
+    background-color: #004385;
+}
+
+.price_letter p:before {
+    background-color: #fff!important;
+}
+
+button.vc_general.vc_btn3.vc_btn3-size-md.vc_btn3-shape-square.vc_btn3-style-flat.vc_btn3-block.vc_btn3-icon-right.vc_btn3-color-sky,
+button#esti-search-btn2_1,
+button#esti-search-btn3 ,
+button#esti-search-btn1 {
+    font-size: 1.2rem;
+}

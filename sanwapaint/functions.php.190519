@@ -1,0 +1,824 @@
+<?php
+//
+// Recommended way to include parent theme styles.
+//  (Please see http://codex.wordpress.org/Child_Themes#How_to_Create_a_Child_Theme)
+//
+add_action( 'wp_enqueue_scripts', 'theme_enqueue_styles' );
+function theme_enqueue_styles() {
+    wp_enqueue_style( 'parent-style', get_template_directory_uri() . '/style.css' );
+    wp_enqueue_style( 'child-style', get_stylesheet_directory_uri() . '/style.css', array('common-css') );
+    wp_enqueue_style( 'notosans','https://fonts.googleapis.com/css?family=Noto+Sans+JP', array('child-style') );
+}
+
+
+//02600 コピーライト ショートコード
+function copyrightFunc()
+{
+    return '&copy;<a href="'.home_url().'" class="copyright">会社名を入れる</a>';
+}
+add_shortcode('copyright', 'copyrightFunc');
+
+
+/**
+ * 子テーマで切り分けたfunctionsが読み込めない時下記
+ * https://8beat-studio.net/sort-out-wp-functions/
+ */
+ require_once locate_template('lib/main_func.php');        // メイン
+ require_once locate_template('lib/admin_func.php');        // メイン
+ require_once locate_template('lib/news_func.php');        // お知らせ関連
+ require_once locate_template('lib/css_js_load_func.php');        // CSS JS
+ require_once locate_template('lib/custom_post_func.php');        // カスタムポスト関連
+
+//
+// Your code goes below
+//
+
+
+
+  add_image_size( 'topEyecatch_ratio', 1920,0,false);
+  add_image_size( 'topEyecatch', 1920,500,true);
+  add_image_size( 'topEyecatchTB', 1024,400,true);
+  add_image_size( 'topEyecatchSP', 480,400,true);
+
+/* 追加のコード：施工事例 */
+function paint_init() {
+    // set up paint labels
+    $labels = array(
+        'name' => 'Paints',
+        'singular_name' => 'Paint',
+        'add_new' => 'Add New Paint',
+        'add_new_item' => 'Add New Paint',
+        'edit_item' => 'Edit Paint',
+        'new_item' => 'New Paint',
+        'all_items' => 'All Paints',
+        'view_item' => 'View Paint',
+        'search_items' => 'Search Paints',
+        'not_found' =>  'No Paints Found',
+        'not_found_in_trash' => 'No Paints found in Trash', 
+        'parent_item_colon' => '',
+        'menu_name' => 'Paints',
+    );
+    
+    // register post type
+    $args = array(
+        'labels' => $labels,
+        'public' => true,
+        'has_archive' => true,
+        'show_ui' => true,
+        'capability_type' => 'post',
+        'hierarchical' => false,
+        'rewrite' => array('slug' => 'paint'),
+        'query_var' => true,
+        'menu_icon' => 'dashicons-randomize',
+        'supports' => array(
+            'title',
+            'custom-fields',
+            'thumbnail',
+        )
+    );
+    register_post_type( 'paint', $args );
+    
+    
+}
+add_action( 'init', 'paint_init' );
+
+
+/**
+ * Adds a meta box to the post editing screen
+ */
+function add_paints_meta_box() {
+	add_meta_box(
+		'paint_meta_box', // $id
+		'Paints', // $title
+		'show_your_fields_meta_box', // $callback
+		'paint', // $screen
+		'normal', // $context
+		'high' // $priority
+	);
+	remove_meta_box( 'slugdiv', 'paint', 'normal' );
+}
+add_action( 'add_meta_boxes', 'add_paints_meta_box' );
+
+
+
+function show_your_fields_meta_box() {
+    global $post;      
+	$meta = get_post_meta( $post->ID, 'paint_fields', true );?>
+
+	<input type="hidden" name="paint_meta_box_nonce" value="<?php echo wp_create_nonce( basename(__FILE__) ); ?>">
+
+	<style>
+		.bg-color-ddd{ background-color: #dddddd;}
+		.w100{ width: 100% !important;}
+		.w5{ width: 4% !important;}
+		.w15{ width: 16% !important;}
+		.w25{ width: 25% !important;}
+		.w75{ width: 75% !important;}
+		.w95{ width: 93% !important;}
+		.w-left{ width: 220px;		}
+		.w-right{ width: 70%;}
+		.ws-left{ width: 60px;}
+		.ws-right{ width: 159px;}
+		.pull-left{float: left;}
+		.clearfix {	clear: both;}
+		.border-left{border-left: 1px solid #999;}
+		.border-right{border-right: 1px solid #999;}
+		.border-bottom{border-bottom: 1px solid #999;}
+		.check-item{width: 25%;	line-height: 35px;}
+		.check-item-w33{width: 33%;	line-height: 35px;}
+		.check-item-other{width: 60%;	line-height: 35px;}
+		.cpt-container{
+			border: 1px solid #999;
+			color: #444;
+		}
+		.cpt-container p{
+			margin: 0  !important;
+			line-height: 24px !important;
+		}
+		.padding-tb8-l20{padding: 8px 0px 8px 20px;}
+		.padding-tb8{	padding: 8px 0px 8px 8px;}
+		.text-lalign{text-align: left;}
+		.bold{
+			font-weight: 600;
+			vertical-align: middle;
+		}
+		.font-14{
+			line-height: 28px;
+			font-size: 14px;
+		}
+	</style>
+
+	<div class="cpt-container">
+
+		<!-- エリア -->
+		<div class="w100 border-bottom">
+			<div class="pull-left w-left text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">					
+					<label for="paint_fields[area]">エリア</label>
+				</div>
+			</div>
+			<div class="pull-left w-right border-left padding-tb8-l20">
+				<select name="paint_fields[area]" id="paint_fields[area]" required="" oninvalid="setCustomValidity('は必ず入力してください。')" class="w100">
+					<option value=""  >●●●市</option>
+					<?php
+						$provinces = array( "1市", "2市", "3市");
+						foreach ($provinces as $key => $province) {
+							if ( isset($meta['area']) && $province == $meta['area']) {
+					?>
+					<option value="<?=$province?>" selected ><?=$province?></option>
+					<?php
+							}else{
+					?>	
+					<option value="<?=$province?>" ><?=$province?></option>
+					<?php	
+							}
+						}
+					?>
+				</select>
+			</div>
+			<div class="clearfix"></div>
+		</div><!-- エリア -->
+
+		<!-- 築年数 -->
+		<div class="w100 border-bottom bg-color-ddd">
+			<div class="pull-left w-left text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">		
+					<label for="paint_fields[construction_years]">築年数</label>
+				</div>
+			</div>
+			<div class="pull-left w-right border-left padding-tb8-l20">
+				<?php
+					$cons_years = array(5, 10, 15, 20, 25, 30, 31);
+					foreach ($cons_years as $cons_key => $cons_year) {
+					 	if ( isset($meta['construction_years']) && is_array( $meta['construction_years'] ) && in_array( $cons_year, $meta['construction_years'] ) ) {
+				            $checked = 'checked="checked"';
+				        } else {
+				            $checked = null;
+				        }
+				?>
+					<div class="check-item pull-left">
+						<input type="checkbox" name="paint_fields[construction_years][]" value="<?=$cons_year?>" <?=$checked?> >					
+				<?php
+						if ($cons_year == '31') echo '30年以上～';
+						else echo '~' . $cons_year . '年未満';
+				?>
+					</div>
+				<?php
+					}
+				?>
+			</div>
+			<div class="clearfix"></div>
+		</div><!-- 築年数 -->
+
+		<!-- 外壁の種類 -->
+		<div class="w100 border-bottom">
+			<div class="pull-left w-left text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">		
+					<label for="paint_fields[outwall_type]">外壁の種類</label>
+				</div>
+			</div>
+			<div class="pull-left w-right border-left padding-tb8-l20">
+				<?php
+					$outwall_types = array('モルタル', 'サイディング', 'ALC', 'RC', '金属壁', 'パネルボード');
+					foreach ($outwall_types as $outwall_key => $outwall_type) {
+					 	if ( isset($meta['outwall_type']) && 
+					 		is_array( $meta['outwall_type'] ) && 
+					 		in_array( $outwall_type, $meta['outwall_type'] ) ) 
+					 	{
+				            $checked = 'checked="checked"';
+				        } else {
+				            $checked = null;
+				        }
+				?>
+					<div class="check-item pull-left">
+						<input type="checkbox" name="paint_fields[outwall_type][]" value="<?=$outwall_type?>" <?=$checked?> >
+						<?=$outwall_type?>
+					</div>
+				<?php
+					}
+				?>
+					<div class="clearfix"></div>
+					<div class="check-item pull-left w100">
+						<div class="pull-left w25">
+							<input type="checkbox" <?php
+								if (isset($meta['outwall_type']) && 
+									is_array( $meta['outwall_type'] ) && 
+									array_key_exists('other', $meta['outwall_type'])) 
+									echo 'checked="checked"';
+							 ?>>その他（）
+						</div>
+						<div class="pull-left">
+							<input type="text" name="paint_fields[outwall_type][other]" value="<?php
+							 if (isset($meta['outwall_type']) && is_array( $meta['outwall_type'] ))
+							 	echo $meta['outwall_type']['other'];?>">
+						</div>
+						<div class="clearfix"></div>
+					</div>
+			</div>
+			<div class="clearfix"></div>
+		</div><!-- 外壁の種類 -->
+
+		<!-- 使用塗料タイプ -->
+		<div class="w100 border-bottom bg-color-ddd">
+			<div class="pull-left w-left text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">		
+					<label for="paint_fields[paint_types]">使用塗料タイプ</label>
+				</div>
+			</div>
+			<div class="pull-left w-right border-left padding-tb8-l20">
+				<?php
+
+					$paint_types = array('フッソ系', 'シリコン系', 'ウレタン系', 'コーティング系');
+					foreach ($paint_types as $pt_key => $paint_type) {
+
+					 	if ( isset($meta['paint_types']) && is_array( $meta['paint_types'] ) && in_array( $paint_type, $meta['paint_types'] ) ) {
+				            $checked = 'checked="checked"';
+				        } else {
+				            $checked = null;
+				        }
+
+				?>
+					<div class="check-item pull-left">
+						<input type="checkbox" name="paint_fields[paint_types][]" value="<?=$paint_type?>" <?=$checked?> >
+						<?=$paint_type?>
+					</div>
+				<?php
+
+					}
+				?>
+					<div class="clearfix"></div>
+					<div class="check-item pull-left w100">
+						<div class="pull-left w25">
+							<input type="checkbox" <?php
+
+								if (isset($meta['paint_types']) && is_array( $meta['paint_types'] ) && array_key_exists('other', $meta['paint_types'])) {
+									echo 'checked="checked"';
+								}
+
+							 ?>>その他（記入）
+						</div>
+						<div class="pull-left">
+							<input type="text" name="paint_fields[paint_types][other]" value="<?php
+							if (isset($meta['paint_types']) && is_array( $meta['paint_types'] )) echo $meta['paint_types']['other']; ?>">
+						</div>
+						<div class="clearfix"></div>
+					</div>
+			</div>
+			<div class="clearfix"></div>
+		</div><!-- 使用塗料タイプ -->
+ 
+ 		<!-- 外壁（平米数㎡） -->
+		<div class="w100 border-bottom">
+			<div class="pull-left w-left text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">		
+					<label for="paint_fields[out_square]">外壁（平米数㎡）</label>
+				</div>
+			</div>
+			<div class="pull-left w-right border-left padding-tb8-l20">
+				<input type="text" name="paint_fields[out_square]" id="paint_fields[out_square]" value="<?php if (is_array($meta) && isset($meta['out_square'])) {	echo $meta['out_square']; } ?>"> ㎡
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<!-- 屋根（平米数㎡） -->
+		<div class="w100 border-bottom bg-color-ddd">
+			<div class="pull-left w-left text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">		
+					<label for="paint_fields[roof_square]">屋根（平米数㎡）</label>
+				</div>
+			</div>
+			<div class="pull-left w-right border-left padding-tb8-l20">
+				<input type="text" name="paint_fields[roof_square]" id="paint_fields[roof_square]" value="<?php if (is_array($meta) && isset($meta['roof_square'])) {	echo $meta['roof_square']; } ?>"> ㎡
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<!-- 価格 -->
+		<div class="w100 border-bottom">
+			<div class="pull-left w-left text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">		
+					<label for="paint_fields[price]">価格</label>
+				</div>
+			</div>
+			<div class="pull-left w-right border-left padding-tb8-l20">
+				<?php
+
+					$prices = array(50, 100, 150, 200, 250, 300, 301);
+					foreach ($prices as $pri_key => $price) {
+
+					 	if ( isset($meta['price']) && is_array( $meta['price'] ) && in_array( $price, $meta['price'] ) ) {
+				            $checked = 'checked="checked"';
+				        } else {
+				            $checked = null;
+				        }
+
+				?>
+					<div class="check-item pull-left">
+					<input type="checkbox" name="paint_fields[price][]" value="<?=$price?>" <?=$checked?> >
+					
+				<?php
+
+						if ($price == '301') echo '300万円以上';
+						else echo '~' . $price . '万円未満';
+				?>
+					</div>
+				<?php
+
+					}
+				?>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<!-- 悩みの要素 -->
+		<div class="w100 border-bottom bg-color-ddd">
+			<div class="pull-left w-left text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">		
+					<label for="paint_fields[worry_elements]">悩みの要素</label>
+				</div>
+			</div>
+			<div class="pull-left w-right border-left padding-tb8-l20">
+				<?php
+
+					$worry_elements = array('色アセ', 'カビ・コケ', 'ひび割れ', '手に粉が付く', '天災被害', 'その他');
+					foreach ($worry_elements as $we_key => $worry_element) {
+
+					 	if (isset($meta['worry_elements']) && is_array( $meta['worry_elements'] ) && in_array( $worry_element, $meta['worry_elements'] ) ) {
+				            $checked = 'checked="checked"';
+				        } else {
+				            $checked = null;
+				        }
+
+				?>
+					<div class="check-item pull-left">
+					<input type="checkbox" name="paint_fields[worry_elements][]" value="<?=$worry_element?>" <?=$checked?> >
+					
+				<?=$worry_element?>
+					</div>
+				<?php
+					}
+				?>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<!-- 戸建の様式 -->
+		<div class="w100 border-bottom">
+			<div class="pull-left w-left text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">		
+					<label for="paint_fields[detacheds]">戸建の様式</label>
+				</div>
+			</div>
+			<div class="pull-left w-right border-left padding-tb8-l20">
+				<?php
+
+					$detacheds = array('和風', '洋風', '和モダン');
+					foreach ($detacheds as $pt_key => $detached) {
+
+					 	if ( isset($meta['detacheds']) && is_array( $meta['detacheds'] ) && in_array( $detached, $meta['detacheds'] ) ) {
+				            $checked = 'checked="checked"';
+				        } else {
+				            $checked = null;
+				        }
+
+				?>
+					<div class="check-item pull-left">
+						<input type="checkbox" name="paint_fields[detacheds][]" value="<?=$detached?>" <?=$checked?> >
+						<?=$detached?>
+					</div>
+				<?php
+
+					}
+				?>
+					<div class="clearfix"></div>
+					<div class="check-item pull-left w100">
+						<div class="pull-left w25">
+							<input type="checkbox" <?php
+
+								if (isset($meta['detacheds']) && is_array( $meta['detacheds'] ) && array_key_exists('other', $meta['detacheds'])) {
+									echo 'checked="checked"';
+								}
+
+							 ?>>その他（）
+						</div>
+						<div class="pull-left">
+							<input type="text" name="paint_fields[detacheds][other]" value="<?php 
+							if (isset($meta['detacheds']) && is_array( $meta['detacheds'] ))  
+								echo $meta['detacheds']['other']; ?>">
+						</div>
+						<div class="clearfix"></div>
+					</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<!-- ハウスメーカー -->
+		<div class="w100 border-bottom bg-color-ddd">
+			<div class="pull-left w-left text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">		
+					<label for="paint_fields[housemakers]">ハウスメーカー</label>
+				</div>
+			</div>
+			<div class="pull-left w-right border-left padding-tb8-l20">
+				<?php
+
+					$housemakers = array('住友林業', '一条工務店', 'ミサワホーム', '積水ハウス', 'セキスイハイム', 'パナホーム', 'ダイワハウス', '大成建設ハウジング', 'へーベルハウス', '三井ホーム');
+					foreach ($housemakers as $pt_key => $housemaker) {
+
+					 	if ( isset($meta['housemakers']) && is_array( $meta['housemakers'] ) && in_array( $housemaker, $meta['housemakers'] ) ) {
+				            $checked = 'checked="checked"';
+				        } else {
+				            $checked = null;
+				        }
+
+				?>
+					<div class="check-item pull-left">
+						<input type="checkbox" name="paint_fields[housemakers][]" value="<?=$housemaker?>" <?=$checked?> >
+						<?=$housemaker?>
+					</div>
+				<?php
+
+					}
+				?>
+					<div class="clearfix"></div>
+					<div class="check-item pull-left w100">
+						<div class="pull-left w25">
+							<input type="checkbox" <?php
+
+								if (isset($meta['housemakers']) && is_array( $meta['housemakers'] ) && array_key_exists('other', $meta['housemakers'])) {
+									echo 'checked="checked"';
+								}
+
+							 ?>>その他（）
+						</div>
+						<div class="pull-left">
+							<input type="text" name="paint_fields[housemakers][other]" value="<?php
+							if (isset($meta['housemakers']) && is_array( $meta['housemakers'] )) 
+								echo $meta['housemakers']['other'];?>">
+						</div>
+						<div class="clearfix"></div>
+					</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<!-- 色 -->
+		<div class="w100 border-bottom">
+			<div class="pull-left text-lalign bold font-14 ws-left" >
+				<div class="padding-tb8-l20 ">		
+					<label>色</label> 
+				</div>
+			</div>
+			<div class="pull-left border-left w95">
+				<!-- 外壁 標準色 -->
+				<div class="w100 border-bottom">
+					<div class="pull-left ws-right" >
+						<div class="padding-tb8">
+							<p>外壁</p>
+							<p>標準色</p>
+						</div>
+					</div>
+					<div class="pull-left border-left padding-tb8-l20 w75">
+						<?php
+
+							$outwall_colors = array('SP-50', 'SP-70', 'SP-75', 'SP-80', 'SP-110', 'SP-111', 'SP-112', 'SP-120', 'SP-121', 'SP-127', 'SP-131', 'SP-133', 'SP-141', 'SP-147', 'SP-150', 'SP-167', 'SP-170', 'SP-185', 'SP-221', 'SP-223', 'SP-247', 'SP-310', 'SP-330', 'SP-336', 'SP-337', 'SP-347', 'SP-350', 'SP-352', 'SP-356', 'SP-357', 'SP-367', 'SP-376', 'SP-385' );
+							foreach ($outwall_colors as $outwall_color) {
+
+							 	if ( isset($meta['outwall_colors']) && is_array( $meta['outwall_colors'] ) && in_array( $outwall_color, $meta['outwall_colors'] ) ) {
+						            $checked = 'checked="checked"';
+						        } else {
+						            $checked = null;
+						        }
+
+						?>
+							<div class="check-item pull-left">
+								<input type="checkbox" name="paint_fields[outwall_colors][]" value="<?=$outwall_color?>" <?=$checked?> >
+								<?=$outwall_color?>
+							</div>
+						<?php
+
+							}
+						?>
+						
+							<div class="check-item-other pull-left">
+								<div class="pull-left">
+									<input type="checkbox" <?php
+
+										if (isset($meta['outwall_colors']) &&  is_array( $meta['outwall_colors'] ) && array_key_exists('other', $meta['outwall_colors'])) {
+											echo 'checked="checked"';
+										}
+
+									 ?>>特注色（）
+								</div>
+								<div class="pull-left">
+									<input type="text" name="paint_fields[outwall_colors][other]"  placeholder="特注色の場合入力" value="<?php
+									if (isset($meta['outwall_colors']) &&  is_array( $meta['outwall_colors'] ))
+									echo $meta['outwall_colors']['other']; ?>">
+								</div>
+								<div class="clearfix"></div>
+							</div>
+
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<!-- 外壁 水性ゾラコート -->
+				<div class="w100 border-bottom">
+					<div class="pull-left ws-right" >
+						<div class="padding-tb8">
+							<p>外壁</p>
+							<p>水性ゾラコート</p>
+						</div>
+					</div>
+					<div class="pull-left border-left padding-tb8-l20 w75">
+						<?php
+
+							$outwall_waterzols = array( 'AZE-301', 'AZE-302', 'AZE-303', 'AZE-304', 'AZE-305', 'AZE-306', 'AZE-307', 'AZE-308', 'AZE-310', 'AZE-311', 'AZE-312', 'AZE-313', 'AZE-314', 'AZE-315', 'AZE-316', 'AZE-317', 'AZE-318', 'AZE-319', 'AZE-320', 'AZE-321', 'AZE-322', 'AZE-323', 'AZE-324', 'AZE-325', 'AZE-326', 'AZE-327', 'AZE-328', 'AZE-329', 'AZE-330' );
+
+							foreach ($outwall_waterzols as $outwall_waterzol) {
+
+							 	if ( isset($meta['outwall_waterzols']) && is_array( $meta['outwall_waterzols'] ) && in_array( $outwall_waterzol, $meta['outwall_waterzols'] ) ) {
+						            $checked = 'checked="checked"';
+						        } else {
+						            $checked = null;
+						        }
+
+						?>
+							<div class="check-item pull-left">
+								<input type="checkbox" name="paint_fields[outwall_waterzols][]" value="<?=$outwall_waterzol?>" <?=$checked?> >
+								<?=$outwall_waterzol?>
+							</div>
+						<?php
+
+							}
+						?>
+							<div class="check-item-other pull-left">
+								<div class="pull-left w25">
+									<input type="checkbox" <?php
+
+										if (isset($meta['outwall_waterzols']) && is_array( $meta['outwall_waterzols'] ) && array_key_exists('other', $meta['outwall_waterzols'])) {
+											echo 'checked="checked"';
+										}
+
+									 ?>>特注色（）
+								</div>
+								<div class="pull-left">
+									<input type="text" name="paint_fields[outwall_waterzols][other]" placeholder="特注色の場合入力" value="<?php 
+									if (isset($meta['outwall_waterzols']) && is_array( $meta['outwall_waterzols'] )) 
+										echo $meta['outwall_waterzols']['other'];?>">
+								</div>
+								<div class="clearfix"></div>
+							</div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<!-- 外壁 コーティング -->
+				<div class="w100 border-bottom">
+					<div class="pull-left ws-right border-right" >
+						<div class="padding-tb8">
+							<p>外壁</p>
+							<p>コーティング</p>
+						</div>
+					</div>
+					<div class="pull-left padding-tb8-l20 w75">
+						<?php
+
+							$outwall_coatings = array('セラシリコンクリアー', 'パワーフッソクリアー', 'グランコートGC');
+							foreach ($outwall_coatings as $outwall_coating) {
+
+							 	if ( isset($meta['outwall_coatings']) && is_array( $meta['outwall_coatings'] ) && in_array( $outwall_coating, $meta['outwall_coatings'] ) ) {
+						            $checked = 'checked="checked"';
+						        } else {
+						            $checked = null;
+						        }
+
+						?>
+							<div class="check-item-w33 pull-left">
+							<input type="checkbox" name="paint_fields[outwall_coatings][]" value="<?=$outwall_coating?>" <?=$checked?> >
+							
+						<?=$outwall_coating?>
+							</div>
+						<?php
+							}
+						?>
+						<div class="clearfix"></div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<!-- 屋根遮熱 標準色 -->
+				<div class="w100 border-bottom">
+					<div class="pull-left ws-right" >
+						<div class="padding-tb8">
+							<p>屋根遮熱</p>
+							<p>標準色</p>
+						</div>
+					</div>
+					<div class="pull-left border-left padding-tb8-l20 w75">
+						<?php
+
+							$roof_hscolors = array( '新クリーム', 'リリーホワイト', 'シルバーホワイト', 'ミストグリーン', 'サンタンオレンジ', 'グレー', 'アンバーブラウン', 'アイビーグリーン', 'フォレストグリーン', 'セピアブラウン', 'コーヒーブラウン', 'カーボングレー', 'ネオブラック');
+
+							foreach ($roof_hscolors as $roof_hscolor) {
+
+							 	if (isset($meta['roof_hscolors']) && is_array( $meta['roof_hscolors'] ) && in_array( $roof_hscolor, $meta['roof_hscolors'] ) ) {
+						            $checked = 'checked="checked"';
+						        } else {
+						            $checked = null;
+						        }
+
+						?>
+							<div class="check-item-w33 pull-left">
+								<input type="checkbox" name="paint_fields[roof_hscolors][]" value="<?=$roof_hscolor?>" <?=$checked?> >
+								<?=$roof_hscolor?>
+							</div>
+						<?php
+
+							}
+						?>
+							<div class="check-item-other pull-left ">
+								<div class="pull-left w25">
+									<input type="checkbox" <?php
+
+										if (isset($meta['roof_hscolors']) && is_array( $meta['roof_hscolors'] ) && array_key_exists('other', $meta['roof_hscolors'])) {
+											echo 'checked="checked"';
+										}
+
+									 ?>>特注色（）
+								</div>
+								<div class="pull-left">
+									<input type="text" name="paint_fields[roof_hscolors][other]" placeholder="特注色の場合入力" value="<?php 
+									if (isset($meta['roof_hscolors']) && is_array( $meta['roof_hscolors'] ))
+										echo $meta['roof_hscolors']['other'];?>">
+								</div>
+								<div class="clearfix"></div>
+							</div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<!-- 屋根 標準色 -->
+				<div class="w100">
+					<div class="pull-left ws-right" >
+						<div class="padding-tb8">
+							<p>屋根</p>
+							<p>標準色</p>
+						</div>
+					</div>
+					<div class="pull-left border-left padding-tb8-l20 w75">
+						<?php
+
+							$roof_standcols = array( 'イエローオーカー', 'ガーネットオレンジ', 'チョコレート', 'カーボングレー', '新ブラウン', 'グレー', 'セピア', 'ビスタブラウン', 'ブルー', 'ナスコン', 'アイビーグリーン', 'ネスモグリーン', 'ネオブラック');
+
+							foreach ($roof_standcols as $roof_standcol) {
+
+							 	if ( isset($meta['roof_standcols']) && is_array( $meta['roof_standcols'] ) && in_array( $roof_standcol, $meta['roof_standcols'] ) ) {
+						            $checked = 'checked="checked"';
+						        } else {
+						            $checked = null;
+						        }
+
+						?>
+							<div class="check-item-w33 pull-left">
+								<input type="checkbox" name="paint_fields[roof_standcols][]" value="<?=$roof_standcol?>" <?=$checked?> >
+								<?=$roof_standcol?>
+							</div>
+						<?php
+
+							}
+						?>
+							<div class="check-item-other pull-left">
+								<div class="pull-left w25">
+									<input type="checkbox" <?php
+
+										if (isset($meta['roof_standcols']) && is_array( $meta['roof_standcols'] ) && array_key_exists('other', $meta['roof_standcols'])) {
+											echo 'checked="checked"';
+										}
+
+									 ?>>特注色（）
+								</div>
+								<div class="pull-left">
+									<input type="text" name="paint_fields[roof_standcols][other]" placeholder="特注色の場合入力" value="<?php 
+									if (isset($meta['roof_standcols']) && is_array( $meta['roof_standcols'] ))
+										echo $meta['roof_standcols']['other'];?>">
+								</div>
+								<div class="clearfix"></div>
+							</div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<!-- 写真 -->
+		<div class="w100 border-bottom bg-color-ddd">
+			<div class="pull-left text-lalign bold font-14 ws-left" >
+				<div class="padding-tb8-l20 ">		
+					<label>写真</label> 
+				</div>
+			</div>
+			<div class="pull-left border-left w95">
+				<div class="w100 border-bottom">
+					<div class="pull-left ws-right" >
+						<div class="padding-tb8">
+							<p>Before</p>
+						</div>
+					</div>
+					<div class="pull-left border-left padding-tb8-l20 w75">
+						
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="w100 ">
+					<div class="pull-left ws-right" >
+						<div class="padding-tb8">
+							<p>After</p>
+						</div>
+					</div>
+					<div class="pull-left border-left padding-tb8-l20 w75">
+						
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+	</div>
+
+	
+
+  	<?php 
+}
+
+
+function save_paint_fields_meta( $post_id ) {   
+	// verify nonce
+	if ( isset($_POST['paint_meta_box_nonce']) 
+			&& !wp_verify_nonce( $_POST['paint_meta_box_nonce'], basename(__FILE__) ) ) {
+			return $post_id; 
+		}
+	// check autosave
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return $post_id;
+	}
+	// check permissions
+	if (isset($_POST['post_type'])) { //Fix 2
+        if ( 'page' === $_POST['post_type'] ) {
+            if ( !current_user_can( 'edit_page', $post_id ) ) {
+                return $post_id;
+            } elseif ( !current_user_can( 'edit_post', $post_id ) ) {
+                return $post_id;
+            }  
+        }
+    }
+	
+	$old = get_post_meta( $post_id, 'paint_fields', true );
+		if (isset($_POST['paint_fields'])) { //Fix 3
+			$new = $_POST['paint_fields'];
+			if ( $new && $new !== $old ) {
+				update_post_meta( $post_id, 'paint_fields', $new );
+			} elseif ( '' === $new && $old ) {
+				delete_post_meta( $post_id, 'paint_fields', $old );
+			}
+		}
+}
+add_action( 'save_post', 'save_paint_fields_meta' );

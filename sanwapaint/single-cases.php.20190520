@@ -1,0 +1,87 @@
+<?php
+/**
+ * The template for displaying all single posts
+ *
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
+ *
+ * @package WordPress
+ * @subpackage Twenty_Seventeen
+ * @since 1.0
+ * @version 1.0
+ */
+
+get_header(); ?>
+
+<link rel="stylesheet" id="common-css-css" href="https://sanwa.7-16.work/wp-content/themes/sanwapaint/assets/page/cases.css" type="text/css" media="all">
+
+<div class="main_panel font-noto">
+	<div class="main_panel_border">
+		<div class="main_content_pane">
+			<!--Title-->
+			<div id="detail_page_title">
+				<p>施工事例</p>
+			</div>
+
+			<div class="page_main_content" id="<?php the_ID(); ?>">
+
+				<div class="page_left_pane">
+
+				<?php get_template_part( 'template-parts/page/detail', 'view' ); ?>
+
+				<?php get_template_part( 'template-parts/page/detail', 'rank' ); ?>
+
+				</div>
+		
+				<?php get_template_part( 'template-parts/page/detail', 'right' ); ?>
+				
+				<div class="float-clear"></div>
+			</div>
+		
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var acc = document.getElementsByClassName("detail_search_title");
+	var i;
+
+	for (i = 0; i < acc.length; i++){
+		acc[i].onclick = function() {
+			this.classList.toggle("active");
+			var panel = this.nextElementSibling;
+			if(panel.style.maxHeight){
+				panel.style.maxHeight = null;
+			}
+			else{
+				panel.style.maxHeight = panel.scrollHeight + "px";
+			}
+		}
+	}
+
+
+	/*Modal*/
+	// Get the modal
+	var modal = document.getElementById("myModal");
+
+	// Get the image and insert it inside the modal - use its "alt" text as a caption
+	var img = document.getElementById("detail_image_img");
+	var modalImg = document.getElementById("img01");
+	var captionText = document.getElementById("caption");
+	img.onclick = function(){
+	  modal.style.display = "block";
+	  modalImg.src = this.src;
+	  captionText.innerHTML = this.alt;
+	}
+
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() { 
+	  modal.style.display = "none";
+	}
+</script>
+
+
+
+<?php get_footer();

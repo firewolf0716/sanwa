@@ -1,0 +1,403 @@
+@charset "utf-8";
+
+/* reset*/
+
+
+/*
+html5doctor.com Reset Stylesheet
+v1.6.1
+Last Updated: 2010-09-17
+Author: Richard Clark - http://richclarkdesign.com
+Twitter: @rich_clark
+*/
+
+
+/*base style by takaki ver0.01 2017/11/10 */
+ i,b,strong{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  vertical-align: baseline;
+  background: transparent;
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
+
+
+
+img,
+video {
+  vertical-align: bottom;
+}
+
+video {
+  max-width: 100%;
+}
+
+body {
+  line-height: 1;
+  letter-spacing: 0;
+}
+.text{
+  line-height:1.5;
+}
+
+li {
+  list-style: none;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+nav ul {
+  list-style-type: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+
+a {
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+  text-decoration: none;
+}
+
+
+
+
+
+/* change colours to suit your needs */
+
+ins {
+  background-color: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+
+/* change colours to suit your needs */
+
+mark {
+  background-color: #ff9;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+del {
+  text-decoration: line-through;
+}
+
+abbr[title],
+dfn[title] {
+  border-bottom: 1px dotted;
+  cursor: help;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+
+/* change border colour to suit your needs */
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #cccccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+input,
+select {
+  vertical-align: middle;
+}
+/*a button*/
+a {
+  color: #333;
+}
+.Pc a[href]:not([href*="tel:"]):not([class*="skn-"]):hover {
+  color: #999;
+}
+
+
+.commonButton {
+  display: inline-block;
+  padding: 1rem 2rem;
+  border: 2px solid #000;
+  background-color: #fff;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.Pc .commonButton:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.rideBox {
+  position: relative;
+}
+
+.rideContent {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+
+.pageWidth{
+  max-width:1920px;
+  margin:auto;
+}
+
+/*.vc_row,*/
+.maxWidth{
+  width:100%;
+  max-width:1024px;
+  margin:auto;
+  padding:0 1rem;
+}
+.maxContent{
+    margin:0 -1rem;
+}
+
+
+
+
+/**********/
+
+
+/*reset vc*/
+
+
+/**********/
+.vc_section{
+  padding:0;
+  margin:0;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  flex-direction:column;
+}
+.vc_section > div{
+  min-height:0%;
+}
+.vc_row {
+  -js-display: flex;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  vertical-align:bottom;
+  margin:0 -0.5rem;
+}
+.wpb_column.vc_column_container{
+  /*padding:0 0.5rem;*/
+}
+
+.vc_column_container>.vc_column-inner,
+.vc_column-inner {
+  padding: 0;
+}
+
+.wpb_button,
+.wpb_content_element,
+ul.wpb_thumbnails-fluid>li {
+  margin-bottom: 0px;
+}
+
+.vc_column-inner::after, .vc_column-inner::before,
+.vc_row:after, .vc_row:before{
+  content:none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*icons*/
+[class^="icon-"], [class*=" icon-"]{
+      font-size: 2.0rem;
+    padding: 0.6rem;
+    letter-spacing: 0;
+    display: inline-block;
+
+}
+
+.icon-facebook{
+    background: #3b5998;
+    color: #fff;
+}
+.icon-line{
+    background: #4CAF50;
+    color: #fff;
+}
+.icon-twitter{
+    background: #1da1f2;
+    color: #fff;
+}
+
+/*h tag style1*/
+body .style1 {
+  padding: .5rem 1rem;/*文字の上下 左右の余白*/
+  color: #494949;/*文字色*/
+  background: #fcfcfc;/*背景色*/
+  border-left: solid 5px #03A9F4;/*左線*/
+  border-bottom: solid 3px #d7d7d7;/*下線*/
+  margin-bottom: 1rem;
+  }
+
+
+/*footer*/
+.subFooterInner {
+    text-align: center;
+}
+
+.subFooterWrapeer {
+    background: #aaa;
+    padding: .5rem;
+}
+
+
+/*404 page*/
+.error404 div#four-o-four {
+    height: 60vh;
+}
+
+.error404 div#four-o-four main,
+.error404 div#four-o-four .entry-content {
+    height: 100%;
+}
+
+
+
+/*button*/
+.btn{
+  display: inline-block;
+}
+.linkBtn{
+  display: inline-block;
+  border:1px solid #666;
+  background-color:#666;
+  color:#fff;
+  box-shadow:2px 2px 4px rgba(0,0,0,.4);
+  padding:.5rem 1rem;
+}
+.linkBtn:hover{
+  display: inline-block;
+  border:1px solid #666;
+  background-color:#fff;
+  color:#666;
+}
+
+/*menu*/
+.headerInner{
+    position:relative;
+}
+.menuBtn{
+    display:none;
+    position:absolute;
+    z-index: 1000;
+    top:1rem;
+    right:1rem;
+    cursor:pointer;
+    width: 3rem;
+    height: 3rem;
+    border:1px solid #888;
+    padding: 0.3rem 0.5rem;
+}
+
+.menuBtnInner{
+    position:relative;
+    height:100%;
+    width:100%;
+}
+.menuBtnInner > div{
+    position:absolute;
+    top:0px;
+    width:100%;
+    height:2px;
+    background-color:#000;
+    transition-propety:top,opacity,transform;
+    transition-duration:0.2s;
+}
+
+.menuBtn .menuBtnInner > div:nth-child(1){
+    top:calc(25% - 1px);
+}
+.menuBtn .menuBtnInner > div:nth-child(2){
+    top:calc(50% - 1px);
+}
+.menuBtn .menuBtnInner > div:nth-child(3){
+    top:calc(75% - 1px);
+}
+
+.menuBtn.active .menuBtnInner > div:nth-child(1){
+    top:calc(50% - 1px);
+    transform:rotate(45deg);
+}
+.menuBtn.active .menuBtnInner > div:nth-child(2){
+    top:calc(50% - 1px);
+    opacity:0;
+}
+.menuBtn.active .menuBtnInner > div:nth-child(3){
+    top:calc(50% - 1px);
+    transform:rotate(-45deg);
+}
+@media screen and (max-width:768px){
+  .menuBtn{
+    display:block;
+  }
+}
+/*/////menu*/
+
+
+
+/*slider スライダー*/
+.swiper-container img{
+  width: 100%;
+}
+
+
+
+
+
+
+
+
+/*style.css*/

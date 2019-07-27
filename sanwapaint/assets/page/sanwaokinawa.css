@@ -1,0 +1,31 @@
+@charset "utf-8";
+@media screen and (max-width:480px){
+
+
+body .tablepress td.column-1 {
+    font-weight:bold;
+    padding-bottom:0;
+    font-size: .9rem;
+}
+
+tbody tr td,
+tbody tr {
+    display:block;
+}
+
+body .tablepress tbody td, body .tablepress tfoot th{
+    border: transparent;
+}
+
+.tablepress tbody td, .tablepress tfoot th {
+    width: 100%;
+}
+.tablepress tbody td:last-child {
+    border-bottom: 1px solid #ccc;
+    margin-bottom:1rem;
+    padding-bottom:1rem;
+}
+
+
+
+}

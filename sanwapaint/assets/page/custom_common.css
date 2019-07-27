@@ -1,0 +1,310 @@
+@charset "utf-8";
+
+*{box-sizing: border-box;}
+.padding-t0{padding-top: 0 !important;}
+.padding-t2{padding-top: 0.13rem !important;}
+.padding-b0{padding-bottom: 0 !important;}
+.padding-l0{padding-left: 1.33rem !important;}
+.padding-5{padding: 0.33rem !important;}
+.padding-tb16-l6{padding: 1.06rem 0 5.33rem 0.4rem}
+.padding-tb16-l13{padding: 1.06rem 0 1.06rem 0.86rem}
+
+.margin-t0{margin-top: 0 !important;}
+.margin-t1{margin-top: 1 !important;}
+.margin-r5{margin-right: 0.33rem !important;}
+
+.pull-left{/* float: left; */}
+.clearfix{clear: both;}
+
+.font-noto {font-family: Noto Sans Jp;}
+.font-moto {font-family: "MotoyaLMaru";}
+
+.font-s16{font-size: 1.06rem !important;}
+.font-s14{font-size: 0.93rem !important;}
+.font-s18{font-size: 1.1rem !important;}
+.font-s30{font-size: 2rem !important;}
+
+.text-left{text-align: left !important;}
+.text-center{text-align: center !important;}
+
+.border-none{border: none !important;}
+.border-left{/* border-left: 1px solid #707070; */}
+.border-right{border-right: 1px solid #707070;}
+.border-bottom{border-bottom: 1px solid #707070;}
+
+.color-white{color: #fff !important;}
+.color-motoya{color: rgb(59,64,67);}
+
+.w15{ width: 15% !important;}
+.w20{ width: 20% !important;}
+.w25{ width: 25% !important;}
+.w50{ width: 50% !important;}
+.w60{ width: 60% !important;}
+.w75{ width: 75% !important;}
+.w80{ width: 80% !important;}
+.w100{ width: 100% !important;}
+
+.h100{height: 100% !important;}
+
+.bs-w100-h100{background-size: 105% 105% !important;}
+.br-no{background-repeat: no-repeat !important;}
+
+.sanwa-widget{
+  padding-bottom: 0 !important; 
+}
+
+.include-child{display: -webkit-box;}
+
+.line-20-80 {        
+    background-image: -o-linear-gradient(left , rgb(255,255,255) 20%, #000 50%, rgb(255,255,255) 20.2%);
+    background-image: -moz-linear-gradient(left , rgb(255,255,255) 20%, #000 50%, rgb(255,255,255) 20.2%);
+    background-image: -webkit-linear-gradient(left , rgb(255,255,255) 20%, #000 0%, rgb(255,255,255) 20.2%);
+    background-image: linear-gradient(left , rgb(255,255,255) 20%, #000 50%, rgb(255,255,255) 20.2%);
+}
+
+
+/*Begin Make Checkbox*/
+/*style wrapper to give some space*/
+.wrapper {
+      position: relative;
+}
+/*style label to give some more space*/
+.wrapper label {
+    display: block;
+    padding: 0px 0 0px 2rem;
+    letter-spacing: -1px;
+}
+/*style and hide original checkbox*/
+.wrapper input {
+    height: 1.5rem;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 1.5rem;
+}
+/*position new box*/
+.wrapper input + label::before {
+    content: "";
+    position: absolute;
+    top:0;
+    bottom:0;
+    margin:auto;
+    left:0.3rem;
+    height: 1rem;
+    width: 1rem;
+    background-color:#fff;
+    border: 1px solid #000;
+}
+/*create check symbol with pseudo element*/
+.wrapper input + label::after {
+    content: "";
+    border: 0.13rem solid rgb(155,164,172);
+    border-left: 0;
+    border-top: 0;
+    height: 0.6rem;
+    left: 0.7rem;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    bottom:0;
+    margin:auto;
+    transform: rotate(45deg);
+    transition: opacity 0.1s ease-in-out;
+    width: 0.26rem;
+}
+/*reveal check for 'on' state*/
+.wrapper input:checked + label::after {
+    opacity: 1;
+}
+/*End Make Checkbox*/
+
+/*begin color check*/
+/* Customize the label (the container) */
+.container {
+  /* display: inline; */
+  position: relative;
+  /* padding-left: 2.2rem; */
+  /* margin-bottom: 10.13rem; */
+  cursor: pointer;
+  font-size: 1.5rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+/* Hide the browser's default checkbox */
+.container input {
+  /* width: 50%; */
+  /* position: absolute; */
+  /* opacity: 0; */
+  /* cursor: pointer; */
+  /* height: 0; */
+  /* width: 0; */
+  display: none;
+}
+/* Create a custom checkbox */
+.checkmark{
+  display:block;
+  width: 100%;
+  height: 100%;
+}
+.wdg-other-pick-other .checkmark{
+  width:100%;
+}
+.wdg-other-pick-other{
+  background-image:url(../../../..//uploads/2019/07/_-_-_colorTest.png);
+  margin:0.65rem 0;
+}
+.wdg-other-pick-other .checkmark{
+  background-color: rgba(255,255,255,0.5);
+}
+
+.specialcolorText{
+  display:block;
+  position:absolute;
+  color: #000;
+}
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  /* left: 0.6rem; */
+  /* top: 0.33rem; */
+  width: 0.53rem;
+  height: 1.06rem;
+  border: solid white;
+  border-width: 0 0.2rem 0.2rem 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  color: blue;
+}
+
+
+
+
+
+.container .checkmark:after{
+  /* position:static; */
+}
+
+
+.specialcolor{
+  position:relative;
+}
+.specialcolor:before{
+  content:"特注色";
+  display:block;
+  position:absolute;
+  box-sizing:border-box;
+  padding-top:0.4rem;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  margin:auto;
+  font-size:1.2rem;
+  width: 35%;
+  height: 70%;
+  padding: 0.4rem 0 0 6rem;
+  color:#fff;
+  background-color:rgba(0,0,0,0.6);
+}
+.sideBarWrap .specialcolor:before{
+  font-size:1.1rem;
+  width: 70%;
+  padding: 0.0rem 0 0 5rem;
+}
+@media screen and (max-width:1024px){
+  .sideBarWrap .specialcolor:before{
+    padding: 0.0rem 0 0 2rem;
+  }
+}
+.sideBarWrap .specialcolor.container input ~ .checkmark:before{
+  width:1rem;
+  height:1rem;
+}
+.sideBarWrap .specialcolor.container .checkmark:after{
+  height:0.7rem;
+  width:0.2rem;
+}
+
+.specialcolor > span{
+  display:block;
+  height:100%;
+  background-size:cover;
+  overflow: hidden;
+}
+
+.container input:checked ~ .checkmark{
+  /* display:flex; */
+  /* align-items:center; */
+  /* justify-content:center; */
+}
+.container input:checked ~ .checkmark:before{
+  position:absolute;
+  content:"";
+  background-color:rgba(0,0,0,0.5);
+  display:block;
+  width: 1.86rem;
+  height:1.86rem;
+  top:0;
+  bottom:0;
+  right:0;
+  left:0;
+  margin:auto;
+}
+.searchColor .container .checkmark:after{
+  border-width:0 0.25rem 0.25rem 0;
+  width:0.6rem;
+  height:1.2rem;
+    top:0;
+  bottom:0;
+  right:0;
+  left:0;
+  margin:auto;
+}
+.searchColor .container input:checked ~ .checkmark:before{
+  width: 1.86rem;
+  height: 1.86rem;
+}
+.specialcolor.container input ~ .checkmark:before{
+  position:absolute;
+  content:"";
+  background-color:rgba(0,0,0,0.5);
+  display:block;
+  width: 1.86rem;
+  height:1.86rem;
+  top:0;
+  bottom:0;
+  right:0;
+  left:0;
+  margin:auto;
+  left: -4.5rem;
+  background-color:transparent;
+  border:1px solid #fff;
+}
+.specialcolor.container .checkmark:after{
+  left: -4.5rem;
+}
+@media screen and (max-width:1024px){
+  .specialcolor:before{
+    text-align:center;
+    padding: 0.4rem 0 0 2rem;
+    width: 50%;
+  }
+  .specialcolor.container .checkmark:after,
+  .specialcolor.container input ~ .checkmark:before{
+    left: -5.5rem;
+  }
+}
+/*end color check*/

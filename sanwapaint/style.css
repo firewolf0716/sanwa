@@ -1,0 +1,281 @@
+/*
+Theme Name:     sanwapaint
+Description:    
+Author:         sanwa paint
+Template:       sole
+
+(optional values you can add: Theme URI, Author URI, Version, License, License URI, Tags, Text Domain)
+*/
+
+
+/*common*/
+body,
+body a{
+  font-size: 1rem;
+}
+.Pc a[href^="tel:"] {
+    pointer-events: none;
+    color: inherit;
+    letter-spacing: 0;
+}
+p, ol, ul {
+    line-height: 1.7;
+    letter-spacing: 0;
+}
+
+.width1000{
+    max-width: 1000px;
+  padding: 0rem 1rem 0;
+}
+
+article {
+  margin:2rem 0;
+}
+article .maxWidth{
+  max-width:960px;
+  padding: 0rem 1rem 0;
+}
+.maxWidth2{
+  max-width:1200px;
+  padding: 0rem 1rem 0;
+}
+.maxWidth768{
+  max-width: 768px;
+  padding: 0 1rem;
+  margin: 0 auto;
+}
+.maxWidth640{
+  max-width: 640px;
+  padding: 0 1rem;
+  margin: 0 auto;
+}
+.maxWidth500{
+  max-width: 500px;
+  padding: 0 1rem;
+  margin: 0 auto;
+}
+
+/*reset*/
+.IE .vc_section > div{
+  min-height:0%;
+}
+
+section .wpb_text_column {
+    padding: .5rem 0 00;
+}
+
+section .wpb_single_image {
+    padding: .5rem 0 0;
+}
+/*secondlayer*/
+#secondLayer {
+    margin: 0 0 4rem 0;
+}
+
+
+/*パンくず*/
+#breadcrumb>ul * {
+    display: inline;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    letter-spacing: 0;
+}
+
+
+/*アイキャッチ*/
+.h1.withNoEyecatch {
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ebf0f1;
+    padding: 0 1rem;
+}
+.h1.withNoEyecatch >div {
+    max-width: calc(1200px - 32px);
+    width: 100%;
+}
+.eyecatchWrapper .h1.withNoEyecatch h1{
+    text-align: left;
+    font-size:1.5rem;
+    font-weight:bold;
+    /* letter-spacing:0; */
+    color: #004385;
+}
+
+
+.eycatch .image {
+    height: 20vh;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    min-height: 200px;
+
+}
+
+
+
+.eyecatchWrapper .h1.withEyecatch .h1Wrapper {
+    max-width: 1024px;
+    width: 100%;
+    margin-top: 5rem;
+    padding: 0 1rem;
+}
+
+.eyecatchWrapper .h1.withEyecatch h1{
+  display: inline;
+}
+
+
+
+
+
+/*banner*/
+/*コンバージョンbanner*/
+.page-sanwa-search-page  #ctaFooter .jirei  ,
+.page-simple-estimation-result #ctaFooter .simpleEstimation ,
+.page-simple-estimation #ctaFooter .simpleEstimation {
+  display: none;
+}
+
+#ctaFooter .maxWidth {
+    width: 100%;
+    max-width: 960px;
+}
+ #ctaFooter .vc_col-sm-3 {
+    width: calc(100% / 3 - .1px);
+    float: none;
+
+}
+ #ctaFooter .wpb_column {
+    /*padding: 0 0.5rem;*/
+}
+.news_row:nth-child(odd) ,
+
+.news_row:nth-child(even) {
+ 
+    background-color: transparent; 
+    border-bottom: 1px solid #ccc;
+}
+.news_row {
+    align-items: center;
+    padding: 1.375rem 0;
+    overflow: hidden;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+
+
+/*news*/
+
+.paging {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.paging>div {
+    width: 30%;
+}
+.single .title.titleText {
+    width: 100%;
+    margin-bottom: .5rem;
+}
+
+
+.single .contentWrapper{
+    padding: 0 .5rem;
+}
+
+
+
+/*media*/
+.category-media .paging>div a{
+    color: #4364AA;
+}
+.Pc .category-media .paging>div a:hover {
+    color: #2196F3;
+}
+.category-media .wp-pagenavi>* {
+  display: inline-block;
+  padding: .5rem .8rem;
+  border: 1px solid #4364AA;
+  margin: 0 .875rem;
+  font-size: 1rem;
+  text-align: center;
+  letter-spacing: 0;
+}
+.category-media .wp-pagenavi>a {
+  display: inline-block;
+  padding: .5rem .8rem;
+  border: 1px solid #4364AA;
+  color: #4364AA;
+}
+
+.Pc .category-media .wp-pagenavi > a:hover {
+  display: inline-block;
+  padding: .5rem .8rem;
+  border: 1px solid #4364AA;
+  background-color: #4364AA;
+  color: #ffffff;
+}
+
+.wp-pagenavi>span {
+  display: inline-block;
+  padding: .5rem .8rem;
+  border: 1px solid #4364AA;
+  color: #ffffff;
+  background-color: #4364AA;
+}
+
+/******************************/
+/**************TB**************/
+/******************************/
+@media (max-width: 768px) {
+
+h3.style02 {
+    text-align: left !important;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    letter-spacing: 0;
+}
+
+ #ctaFooter .vc_col-sm-3 {
+    width: calc(33.333% - .1px);
+    float: none;
+
+}
+
+ #ctaFooter .co3.wpb_column.vc_column_container.vc_col-sm-3 {
+    display: block;
+}
+}
+
+/******************************/
+/**************SP**************/
+/******************************/
+@media (max-width: 480px) {
+.header_next > article{
+margin-top: 0;}
+article .maxWidth {
+    max-width: 960px;
+    padding: 1rem 1rem 0;
+}
+ #ctaFooter .vc_col-sm-3 {
+    width: calc(100%);
+    float: none;
+
+}
+
+ #ctaFooter .co3.wpb_column.vc_column_container.vc_col-sm-3 {
+    display: block;
+}
+
+
+
+
+}

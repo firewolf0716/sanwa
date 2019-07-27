@@ -1,0 +1,799 @@
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    tap-highlight-color: transparent;
+    box-sizing: border-box;
+
+  font-family: 'Noto Sans JP','メイリオ', Meiryo, "ヒラギノ角ゴシック Pro", "Hiragino Kaku Gothic Pro", "游ゴシック体", "Yu Gothic", YuGothic, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+  
+}
+/*font*/
+.openSans{
+   font-family: 'Open Sans';
+}
+.timesNewRoman{
+    font-family: 'Times New Roman';
+}
+pre{
+    font-size: 1rem;
+    margin:1rem 0;
+}
+/*フォントを追加する場合下記を解除*/
+/*@import url('https://fonts.googleapis.com/css?family=Poppins');*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: 1.3rem;
+    font-weight:normal;
+}
+
+body {
+    font-size: 1rem;
+}
+
+.imageBox.imageCenter {
+    text-align: center;
+}
+
+.imageBox.imageRight {
+    text-align: right;
+}
+
+.image {
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: bottom;
+    text-align: center;
+}
+
+.image img {
+    width: 100%;
+    vertical-align: bottom;
+    height: auto;
+}
+
+img {
+    vertical-align: bottom;
+}
+
+/*画像中央*/
+.imageCenter {
+    position: relative;
+}
+
+.imageCenter>img {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    width: auto;
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+}
+
+input[type="password"],
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="search"],
+textarea {
+    padding: .5rem;
+    border: 1px solid #ccc;
+    border-radius: .2rem;
+    font-size: 1rem;
+    width: 100%;
+}
+
+select {
+    height: 2.3rem;
+    border: 1px solid #ccc;
+    border-radius: .2rem;
+    background-color: transparent;
+}
+
+input[type="button"],
+input[type="submit"] {
+    -webkit-appearance: none;
+}
+
+/*****************************/
+/* text-align                */
+/*****************************/
+.textCenter {
+    text-align: center
+}
+
+.textLeft {
+    text-align: left;
+}
+
+.textRight {
+    text-align: right;
+}
+
+
+/*****************************/
+/* flex setting              */
+/*****************************/
+/*****************************/
+/*flex;                    */
+/*****************************/
+.flex_wrap {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-align-content: flex-start;
+    align-content: flex-start;
+}
+
+.flex {
+    display: -webkit-box;
+    /*--- Android旧ブラウザ用 ---*/
+    -js-display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+/*****************************/
+/*flex direction;           */
+/*****************************/
+.flex_hanten,
+.fDir_rowrev {
+    -webkit-flex-direction: row-reverse;
+    -ms-flex-direction: row-reverse;
+    flex-direction: row-reverse;
+}
+
+/*****************************/
+/*flex wrap                  */
+/*****************************/
+.flex_orikaeshi,
+.fWrap_wrap {
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-align-content: flex-start;
+    align-content: flex-start;
+}
+
+.flex_orikaeshi_hanten,
+.fWrap_wraprev {
+    -webkit-flex-wrap: wrap-reverse;
+    -ms-flex-wrap: wrap-reverse;
+    flex-wrap: wrap-reverse;
+}
+
+
+/*****************************/
+/*flex justify-content 横並び*/
+/*****************************/
+.flex_yoko_start,
+.fjc_start {
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+}
+
+.flex_yoko_end,
+.fjc_end {
+    -webkit-justify-content: flex-end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+}
+
+.flex_yoko_center,
+.fjc_center {
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.flex_yoko_kintou,
+.fjc_between {
+    -ms-flex-pack: justify;
+    /*IE10*/
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+}
+
+.fjc_around {
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+}
+
+
+/*****************************/
+/*flex align-items 縦位置     */
+/*****************************/
+.flex_tate_start,
+.fai_start {
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+}
+
+.flex_tate_end,
+.fai_end {
+    -webkit-align-items: flex-end;
+    align-items: flex-end;
+}
+
+.flex_tate_center,
+.fai_center {
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.flex_tate_baseline,
+.fai_baseline {
+    -webkit-align-items: baseline;
+    align-items: baseline;
+}
+
+.flex_tate_stretch,
+.fai_stretch {
+    -webkit-align-items: stretch;
+    align-items: stretch;
+}
+
+
+
+
+/*****************************/
+/*flex align-content         */
+/*****************************/
+
+.fac_end {
+    -webkit-align-content: flex-end;
+    align-content: flex-end;
+}
+
+.fac_center {
+    -webkit-align-content: center;
+    align-content: center;
+}
+
+.fac_between {
+    -webkit-align-content: space-between;
+    align-content: space-between;
+}
+
+.fac_around {
+    -webkit-align-content: space-around;
+    align-content: space-around;
+}
+
+@media screen and (min-width:769px) {
+    .flexPc {
+        display: -webkit-box;
+        /*--- Android旧ブラウザ用 ---*/
+        -js-display: flex;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+    }
+
+    /*****************************/
+    /*flex direction;           */
+    /*****************************/
+    .flex_hantenPc,
+    .fDir_rowrevPc {
+        -webkit-flex-direction: row-reverse;
+        -ms-flex-direction: row-reverse;
+        flex-direction: row-reverse;
+    }
+
+    /*****************************/
+    /*flex wrap                  */
+    /*****************************/
+    .flex_orikaeshiPc,
+    .fWrap_wrapPc {
+        -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-align-content: flex-start;
+        align-content: flex-start;
+    }
+
+    .flex_orikaeshi_hantenPc,
+    .fWrap_wraprevPc {
+        -webkit-flex-wrap: wrap-reverse;
+        -ms-flex-wrap: wrap-reverse;
+        flex-wrap: wrap-reverse;
+    }
+
+
+    /*****************************/
+    /*flex justify-content 横並び*/
+    /*****************************/
+    .flex_yoko_startPc,
+    .fjc_startPc {
+        -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+    }
+
+    .flex_yoko_endPc,
+    .fjc_endPc {
+        -webkit-justify-content: flex-end;
+        -ms-flex-pack: end;
+        justify-content: flex-end;
+    }
+
+    .flex_yoko_centerPc,
+    .fjc_centerPc {
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+    }
+
+    .flex_yoko_kintouPc,
+    .fjc_betweenPc {
+        -ms-flex-pack: justify;
+        /*IE10*/
+        -webkit-justify-content: space-between;
+        justify-content: space-between;
+    }
+
+    .fjc_aroundPc {
+        -webkit-justify-content: space-around;
+        justify-content: space-around;
+    }
+
+
+    /*****************************/
+    /*flex align-items 縦位置     */
+    /*****************************/
+    .flex_tate_startPc,
+    .fai_startPc {
+        -webkit-align-items: flex-start;
+        align-items: flex-start;
+    }
+
+    .flex_tate_endPc,
+    .fai_endPc {
+        -webkit-align-items: flex-end;
+        align-items: flex-end;
+    }
+
+    .flex_tate_centerPc,
+    .fai_centerPc {
+        -webkit-align-items: center;
+        align-items: center;
+    }
+
+    .flex_tate_baselinePc,
+    .fai_baselinePc {
+        -webkit-align-items: baseline;
+        align-items: baseline;
+    }
+
+    .flex_tate_stretchPc,
+    .fai_stretchPc {
+        -webkit-align-items: stretch;
+        align-items: stretch;
+    }
+
+
+
+
+    /*****************************/
+    /*flex align-content         */
+    /*****************************/
+
+    .fac_endPc {
+        -webkit-align-content: flex-end;
+        align-content: flex-end;
+    }
+
+    .fac_centerPc {
+        -webkit-align-content: center;
+        align-content: center;
+    }
+
+    .fac_betweenPc {
+        -webkit-align-content: space-between;
+        align-content: space-between;
+    }
+
+    .fac_aroundPc {
+        -webkit-align-content: space-around;
+        align-content: space-around;
+    }
+}
+
+@media screen and (min-width:481px) and (max-width:768px) {
+    .flexTb {
+        display: -webkit-box;
+        /*--- Android旧ブラウザ用 ---*/
+        -js-display: flex;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+    }
+
+    /*****************************/
+    /*flex direction;           */
+    /*****************************/
+    .flex_hantenTb,
+    .fDir_rowrevTb {
+        -webkit-flex-direction: row-reverse;
+        -ms-flex-direction: row-reverse;
+        flex-direction: row-reverse;
+    }
+
+    /*****************************/
+    /*flex wrap                  */
+    /*****************************/
+    .flex_orikaeshiTb,
+    .fWrap_wrapTb {
+        -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-align-content: flex-start;
+        align-content: flex-start;
+    }
+
+    .flex_orikaeshi_hantenTb,
+    .fWrap_wraprevTb {
+        -webkit-flex-wrap: wrap-reverse;
+        -ms-flex-wrap: wrap-reverse;
+        flex-wrap: wrap-reverse;
+    }
+
+
+    /*****************************/
+    /*flex justify-content 横並び*/
+    /*****************************/
+    .flex_yoko_startTb,
+    .fjc_startTb {
+        -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+    }
+
+    .flex_yoko_endTb,
+    .fjc_endTb {
+        -webkit-justify-content: flex-end;
+        -ms-flex-pack: end;
+        justify-content: flex-end;
+    }
+
+    .flex_yoko_centerTb,
+    .fjc_centerTb {
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+    }
+
+    .flex_yoko_kintouTb,
+    .fjc_betweenTb {
+        -ms-flex-pack: justify;
+        /*IE10*/
+        -webkit-justify-content: space-between;
+        justify-content: space-between;
+    }
+
+    .fjc_aroundTb {
+        -webkit-justify-content: space-around;
+        justify-content: space-around;
+    }
+
+
+    /*****************************/
+    /*flex align-items 縦位置     */
+    /*****************************/
+    .flex_tate_startTb,
+    .fai_startTb {
+        -webkit-align-items: flex-start;
+        align-items: flex-start;
+    }
+
+    .flex_tate_endTb,
+    .fai_endTb {
+        -webkit-align-items: flex-end;
+        align-items: flex-end;
+    }
+
+    .flex_tate_centerTb,
+    .fai_centerTb {
+        -webkit-align-items: center;
+        align-items: center;
+    }
+
+    .flex_tate_baselineTb,
+    .fai_baselineTb {
+        -webkit-align-items: baseline;
+        align-items: baseline;
+    }
+
+    .flex_tate_stretchTb,
+    .fai_stretchTb {
+        -webkit-align-items: stretch;
+        align-items: stretch;
+    }
+
+
+
+
+    /*****************************/
+    /*flex align-content         */
+    /*****************************/
+
+    .fac_endTb {
+        -webkit-align-content: flex-end;
+        align-content: flex-end;
+    }
+
+    .fac_centerTb {
+        -webkit-align-content: center;
+        align-content: center;
+    }
+
+    .fac_betweenTb {
+        -webkit-align-content: space-between;
+        align-content: space-between;
+    }
+
+    .fac_aroundTb {
+        -webkit-align-content: space-around;
+        align-content: space-around;
+    }
+}
+
+@media screen and (max-width:480px) {
+    .flexSp {
+        display: -webkit-box;
+        /*--- Android旧ブラウザ用 ---*/
+        -js-display: flex;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+    }
+
+    /*****************************/
+    /*flex direction;           */
+    /*****************************/
+    .flex_hantenSp,
+    .fDir_rowrevSp {
+        -webkit-flex-direction: row-reverse;
+        -ms-flex-direction: row-reverse;
+        flex-direction: row-reverse;
+    }
+
+    /*****************************/
+    /*flex wrap                  */
+    /*****************************/
+    .flex_orikaeshiSp,
+    .fWrap_wrapSp {
+        -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-align-content: flex-start;
+        align-content: flex-start;
+    }
+
+    .flex_orikaeshi_hantenSp,
+    .fWrap_wraprevSp {
+        -webkit-flex-wrap: wrap-reverse;
+        -ms-flex-wrap: wrap-reverse;
+        flex-wrap: wrap-reverse;
+    }
+
+
+    /*****************************/
+    /*flex justify-content 横並び*/
+    /*****************************/
+    .flex_yoko_startSp,
+    .fjc_startSp {
+        -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+    }
+
+    .flex_yoko_endSp,
+    .fjc_endSp {
+        -webkit-justify-content: flex-end;
+        -ms-flex-pack: end;
+        justify-content: flex-end;
+    }
+
+    .flex_yoko_centerSp,
+    .fjc_centerSp {
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+    }
+
+    .flex_yoko_kintouSp,
+    .fjc_betweenSp {
+        -ms-flex-pack: justify;
+        /*IE10*/
+        -webkit-justify-content: space-between;
+        justify-content: space-between;
+    }
+
+    .fjc_aroundSp {
+        -webkit-justify-content: space-around;
+        justify-content: space-around;
+    }
+
+
+    /*****************************/
+    /*flex align-items 縦位置     */
+    /*****************************/
+    .flex_tate_startSp,
+    .fai_startSp {
+        -webkit-align-items: flex-start;
+        align-items: flex-start;
+    }
+
+    .flex_tate_endSp,
+    .fai_endSp {
+        -webkit-align-items: flex-end;
+        align-items: flex-end;
+    }
+
+    .flex_tate_centerSp,
+    .fai_centerSp {
+        -webkit-align-items: center;
+        align-items: center;
+    }
+
+    .flex_tate_baselineSp,
+    .fai_baselineSp {
+        -webkit-align-items: baseline;
+        align-items: baseline;
+    }
+
+    .flex_tate_stretchSp,
+    .fai_stretchSp {
+        -webkit-align-items: stretch;
+        align-items: stretch;
+    }
+
+
+
+
+    /*****************************/
+    /*flex align-content         */
+    /*****************************/
+
+    .fac_endSp {
+        -webkit-align-content: flex-end;
+        align-content: flex-end;
+    }
+
+    .fac_centerSp {
+        -webkit-align-content: center;
+        align-content: center;
+    }
+
+    .fac_betweenSp {
+        -webkit-align-content: space-between;
+        align-content: space-between;
+    }
+
+    .fac_aroundSp {
+        -webkit-align-content: space-around;
+        align-content: space-around;
+    }
+}
+
+/*****************************/
+/*virtical align             */
+/*****************************/
+.va_top {
+    vertical-align: top;
+}
+
+.va_middle {
+    vertical-align: middle;
+}
+
+.va_bottom {
+    vertical-align: bottom;
+}
+
+
+/*****************************/
+/*font weight                */
+/*****************************/
+.normal {
+    font-weight: normal;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+/*****************************/
+/*font awesome               */
+/*****************************/
+.Nfas {
+    font-family: "Font Awesome 5 Free";
+}
+
+/*****************************/
+/*三点リーダー                 */
+/*****************************/
+.santen {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/*****************************/
+/*中心                        */
+/*****************************/
+.chushin {
+    display: -webkit-box;
+    -js-display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+/*wacu Common*/
+
+/*****************************/
+/*hide                       */
+/*****************************/
+@media screen and (min-width:769px) {
+    body .hidePc {
+        display: none !important;
+    }
+
+    body .onlyTb {
+        display: none !important;
+    }
+
+    body .onlySp {
+        display: none !important;
+    }
+}
+
+@media screen and (min-width:481px) and (max-width:768px) {
+    body .onlyPc {
+        display: none !important;
+    }
+
+    body .hideTb {
+        display: none !important;
+    }
+
+    body .onlySp {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width:480px) {
+    body .onlyPc {
+        display: none !important;
+    }
+
+    body .onlyTb {
+        display: none !important;
+    }
+
+    body .hideSp {
+        display: none !important;
+    }
+}

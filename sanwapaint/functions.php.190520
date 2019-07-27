@@ -1,0 +1,1508 @@
+<?php
+//
+// Recommended way to include parent theme styles.
+//  (Please see http://codex.wordpress.org/Child_Themes#How_to_Create_a_Child_Theme)
+//
+add_action( 'wp_enqueue_scripts', 'theme_enqueue_styles' );
+function theme_enqueue_styles() {
+    wp_enqueue_style( 'parent-style', get_template_directory_uri() . '/style.css' );
+    wp_enqueue_style( 'child-style', get_stylesheet_directory_uri() . '/style.css', array('common-css') );
+	wp_enqueue_style( 'cases-style', get_stylesheet_directory_uri() . '/case.css' );
+    wp_enqueue_style( 'notosans','https://fonts.googleapis.com/css?family=Noto+Sans+JP', array('child-style') );
+}
+
+
+//02600 コピーライト ショートコード
+function copyrightFunc()
+{
+    return '&copy;<a href="'.home_url().'" class="copyright">会社名を入れる</a>';
+}
+add_shortcode('copyright', 'copyrightFunc');
+
+
+/**
+ * 子テーマで切り分けたfunctionsが読み込めない時下記
+ * https://8beat-studio.net/sort-out-wp-functions/
+ */
+ require_once locate_template('lib/main_func.php');        // メイン
+ require_once locate_template('lib/admin_func.php');        // メイン
+ require_once locate_template('lib/news_func.php');        // お知らせ関連
+ require_once locate_template('lib/css_js_load_func.php');        // CSS JS
+ require_once locate_template('lib/custom_post_func.php');        // カスタムポスト関連
+
+//
+// Your code goes below
+//
+
+
+
+  add_image_size( 'topEyecatch_ratio', 1920,0,false);
+  add_image_size( 'topEyecatch', 1920,500,true);
+  add_image_size( 'topEyecatchTB', 1024,400,true);
+  add_image_size( 'topEyecatchSP', 480,400,true);
+
+/* 追加のコード：施工事例 */
+// Cases Custom Post Type
+function cases_init() {
+    // set up cases labels
+    $labels = array(
+        'name' => '施工事例',
+        'singular_name' => 'Cases',
+        'parent_item_colon' => '',
+        'menu_name' => '施工事例',
+    );
+    
+    // register post type
+    $args = array(
+        'labels' => $labels,
+        'public' => true,
+        'has_archive' => true,
+        'show_ui' => true,
+        'capability_type' => 'post',
+        'hierarchical' => false,
+        'rewrite' => array('slug' => 'cases'),
+        'query_var' => true,
+        'menu_icon' => 'dashicons-randomize',
+        'publicly_queryable' => true, 
+        'supports' => array(
+            'title',
+            'thumbnail',
+        )
+    );
+    register_post_type( 'cases', $args );    
+    
+}
+add_action( 'init', 'cases_init' );
+
+
+/**
+ * Adds a meta box to the post editing screen
+ */
+function add_cases_meta_box() {
+    add_meta_box(
+        'cases_meta_box', // $id
+        '事例', // $title
+		'show_your_fields_meta_box', // $callback
+		'cases', // $screen
+		'normal', // $context
+		'high' // $priority
+	);
+	remove_meta_box( 'slugdiv', 'cases', 'normal' );
+}
+add_action( 'add_meta_boxes', 'add_cases_meta_box' );
+
+
+
+function show_your_fields_meta_box() {
+    global $post; ?>
+
+	<input type="hidden" name="cases_meta_box_nonce" value="<?php echo wp_create_nonce( basename(__FILE__) ); ?>">
+
+	<style>
+		.cpt-container, 
+		.cpt-container *{box-sizing: border-box !important;}
+		.bg-color-ddd{ background-color: #dddddd !important;}
+		.bg-color-pbtn{ background-color: #808488 !important;}
+		.red{color: red !important;}
+		.white{color: #fff !important;}
+		.w100{ width: 100% !important;}
+		.w5{ width: 4% !important;}
+		.w10{ width: 10% !important;}
+		.w15{ width: 16% !important;}
+		.w20{ width: 20% !important;}
+		.w30{ width: 30% !important;}
+		.w70{ width: 70% !important;}
+		.w80{ width: 80% !important;}
+		.w15{ width: 16% !important;}
+		.w25{ width: 25% !important;}
+		.w45{ width: 45% !important;}
+		.w50{ width: 50% !important;}
+		.w75{ width: 75% !important;}
+		.w95{ width: 94% !important;}
+		.w-left{ width: 220px;		}
+		.w-right{ width: 70%;}
+		.ws-left{ width: 60px;}
+		.ws-right{ width: 159px;}
+		.pull-left{float: left;}
+		.clearfix {	clear: both;}
+		.border-left{border-left: 1px solid #999;}
+		.border-right{border-right: 1px solid #999;}
+		.border-bottom{border-bottom: 1px solid #999;}
+		.check-item{width: 25%;	line-height: 35px;}
+		.check-item-w33{width: 33%;	line-height: 35px;}
+		.check-item-other{width: 60%;	line-height: 35px;}
+		.cpt-container{
+			border: 1px solid #999;
+			color: #444;
+			box-sizing: border-box;
+		}
+		.cpt-container p{
+			margin: 0  !important;
+			line-height: 24px !important;
+		}
+		.padding-tb8-l20{padding: 8px 0px 8px 20px;}
+		.padding-tb8{	padding: 8px 0px 8px 8px;}
+		.padding-tb5{padding: 0 5px;}
+		.padding-t10{padding-top: 10px;}
+		.margin-t10{margin-top: 10px;}
+		.margin-t20{margin-top: 20px;}
+		.text-lalign{text-align: left;}
+		.text-calign{text-align: center;}
+		.bold{
+			font-weight: 600;
+			vertical-align: middle;
+		}
+		.font-14{
+			line-height: 28px;
+			font-size: 14px;
+		}
+		.parent {
+			display: flex;
+			flex-wrap: wrap; /* to wrap the divs on smaller devices (mobile) */
+		}
+	</style>
+
+	<div class="cpt-container">
+
+		<!-- エリア -->
+		<div class="w100 border-bottom parent">
+			<div class="pull-left w20 text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">					
+					<label for="area">お住いの都道府県</label><br><label class="red">&nbsp;(必須)</label>
+				</div>
+			</div>
+			<?php $m_area = get_post_meta( $post->ID, 'area', true ); ?>
+			<div class="pull-left border-left w80 padding-tb8-l20">
+				<select name="area" id="area" class="w50">
+					<option value=""  >●●●市</option>
+					<?php
+						$provinces = array( "1市", "2市", "3市");
+						foreach ($provinces as $key => $province) {
+							if ( !empty($m_area) && $province == $m_area) {
+					?>
+					<option value="<?=$province?>" selected ><?=$province?></option>
+					<?php
+							}else{
+					?>	
+					<option value="<?=$province?>" ><?=$province?></option>
+					<?php	
+							}
+						}
+					?>
+				</select>
+			</div>
+			<div class="clearfix"></div>
+		</div><!-- エリア -->
+
+		<!-- 築年数 -->
+		<div class="w100 border-bottom bg-color-ddd">
+			<div class="pull-left w20 text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">		
+					<label for="construction_years">築年数</label>
+				</div>
+			</div>			
+			<?php $m_construction_years = get_post_meta( $post->ID, 'construction_years', true ); ?>
+			<div class="pull-left w80 border-left padding-tb8-l20">
+				<?php
+					$cons_years = array(5, 10, 15, 20, 25, 30, 31);
+					foreach ($cons_years as $cons_key => $cons_year) {
+					 	if ( !is_null($m_construction_years) && is_array( $m_construction_years ) && in_array( $cons_year, $m_construction_years ) ) {
+				            $checked = 'checked="checked"';
+				        } else {
+				            $checked = null;
+				        }
+				?>
+					<div class="check-item pull-left">
+						<input type="checkbox" name="construction_years[]" value="<?=$cons_year?>" <?=$checked?> >					
+				<?php
+						if ($cons_year == '31') echo '30年以上～';
+						else echo '~' . $cons_year . '年未満';
+				?>
+					</div>
+				<?php
+					}
+				?>
+			</div>
+			<div class="clearfix"></div>
+		</div><!-- 築年数 -->
+
+		<!-- 外壁の種類 -->
+		<div class="w100 border-bottom">
+			<div class="pull-left w20 text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">		
+					<label for="outwall_type">外壁の種類</label>
+				</div>
+			</div>					
+			<?php $m_outwall_types = get_post_meta( $post->ID, 'outwall_type', true ); ?>
+			<div class="pull-left w80 border-left padding-tb8-l20">
+				<?php
+					$outwall_types = array('モルタル', 'サイディング', 'ALC', 'RC', '金属壁', 'パネルボード');
+					foreach ($outwall_types as $outwall_key => $outwall_type) {
+					 	if ( !empty($m_outwall_types) && 
+					 		is_array( $m_outwall_types ) && 
+					 		in_array( $outwall_type, $m_outwall_types ) ) 
+					 	{
+				            $checked = 'checked="checked"';
+				        } else {
+				            $checked = null;
+				        }
+				?>
+					<div class="check-item pull-left">
+						<input type="checkbox" name="outwall_type[]" value="<?=$outwall_type?>" <?=$checked?> >
+						<?=$outwall_type?>
+					</div>
+				<?php
+					}
+				?>
+					<div class="clearfix"></div>
+					<div class="check-item pull-left w100">
+						<div class="pull-left w25">
+							<input type="checkbox" <?php
+								if (!empty($m_outwall_types) && 
+									is_array( $m_outwall_types) && 
+									array_key_exists('other', $m_outwall_types) && 
+									!empty($m_outwall_types['other'])) 
+									echo 'checked="checked"';
+							 ?>>その他（）
+						</div>
+						<div class="pull-left">
+							<input type="text" name="outwall_type[other]" value="<?php
+							 if (isset($m_outwall_types) && is_array( $m_outwall_types ))
+							 	echo $m_outwall_types['other'];?>">
+						</div>
+						<div class="clearfix"></div>
+					</div>
+			</div>
+			<div class="clearfix"></div>
+		</div><!-- 外壁の種類 -->
+
+		<!-- 使用塗料タイプ -->
+		<div class="w100 border-bottom bg-color-ddd">
+			<div class="pull-left w20 text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">		
+					<label for="case_types">使用塗料タイプ</label>
+				</div>
+			</div>
+			<?php $m_case_types = get_post_meta( $post->ID, 'case_types', true ); ?>
+			<div class="pull-left w80 border-left padding-tb8-l20">
+				<?php
+
+					$case_types = array('フッソ系', 'シリコン系', 'ウレタン系', 'コーティング系');
+					foreach ($case_types as $pt_key => $case_type) {
+
+					 	if ( isset($m_case_types) && is_array( $m_case_types ) && in_array( $case_type, $m_case_types ) ) {
+				            $checked = 'checked="checked"';
+				        } else {
+				            $checked = null;
+				        }
+
+				?>
+					<div class="check-item pull-left">
+						<input type="checkbox" name="case_types[]" value="<?=$case_type?>" <?=$checked?> >
+						<?=$case_type?>
+					</div>
+				<?php
+
+					}
+				?>
+					<div class="clearfix"></div>
+					<div class="check-item pull-left w100">
+						<div class="pull-left w25">
+							<input type="checkbox" <?php
+
+								if (isset($m_case_types) && is_array( $m_case_types ) && array_key_exists('other', $m_case_types) &&
+									!empty($m_case_types['other'])) {
+									echo 'checked="checked"';
+								}
+
+							 ?>>その他（記入）
+						</div>
+						<div class="pull-left">
+							<input type="text" name="case_types[other]" value="<?php
+							if (isset($m_case_types) && is_array( $m_case_types )) echo $m_case_types['other']; ?>">
+						</div>
+						<div class="clearfix"></div>
+					</div>
+			</div>
+			<div class="clearfix"></div>
+		</div><!-- 使用塗料タイプ -->
+ 
+ 		<!-- 外壁（平米数㎡） -->
+		<div class="w100 border-bottom parent">
+			<div class="pull-left w20 text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">		
+					<label for="out_square">外壁（平米数㎡）</label>
+				</div>
+			</div>
+			<?php $m_out_square = get_post_meta( $post->ID, 'out_square', true ); ?>
+			<div class="pull-left w80 border-left padding-tb8-l20">
+				<input type="text" name="out_square" class="w30" id="out_square" value="<?php if (isset($m_out_square)) {	echo $m_out_square; } ?>"> ㎡
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<!-- 屋根（平米数㎡） -->
+		<div class="w100 border-bottom bg-color-ddd parent">
+			<div class="pull-left w20 text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">		
+					<label for="roof_square">屋根（平米数㎡）</label>
+				</div>
+			</div>
+			<?php $m_roof_square = get_post_meta( $post->ID, 'roof_square', true ); ?>
+			<div class="pull-left w80 border-left padding-tb8-l20">
+				<input type="text" name="roof_square" class="w30" id="roof_square" value="<?php if (isset($m_roof_square)) {	echo $m_roof_square; } ?>"> ㎡
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<!-- 価格 -->
+		<div class="w100 border-bottom">
+			<div class="pull-left w20 text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">		
+					<label for="price">価格</label>
+				</div>
+			</div>
+			<?php $m_price = get_post_meta( $post->ID, 'price', true ); ?>
+			<div class="pull-left w80 border-left padding-tb8-l20">
+				<?php
+
+					$prices = array(50, 100, 150, 200, 250, 300, 301);
+					foreach ($prices as $pri_key => $price) {
+
+					 	if ( isset($m_price) && is_array( $m_price ) && in_array( $price, $m_price ) ) {
+				            $checked = 'checked="checked"';
+				        } else {
+				            $checked = null;
+				        }
+				?>
+					<div class="check-item pull-left">
+					<input type="checkbox" name="price[]" value="<?=$price?>" <?=$checked?> >
+					
+				<?php
+
+						if ($price == '301') echo '300万円以上';
+						else echo '~' . $price . '万円未満';
+				?>
+					</div>
+				<?php
+
+					}
+				?>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<!-- 悩みの要素 -->
+		<div class="w100 border-bottom bg-color-ddd">
+			<div class="pull-left w20 text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">		
+					<label for="worry_elements">悩みの要素</label>
+				</div>
+			</div>
+			<?php $m_worry_elements = get_post_meta( $post->ID, 'worry_elements', true ); ?>
+			<div class="pull-left w80 border-left padding-tb8-l20">
+				<?php
+
+					$worry_elements = array('色アセ', 'カビ・コケ', 'ひび割れ', '手に粉が付く', '天災被害', 'その他');
+					foreach ($worry_elements as $we_key => $worry_element) {
+
+					 	if (isset($m_worry_elements) && is_array( $m_worry_elements ) && in_array( $worry_element, $m_worry_elements ) ) {
+				            $checked = 'checked="checked"';
+				        } else {
+				            $checked = null;
+				        }
+
+				?>
+					<div class="check-item pull-left">
+					<input type="checkbox" name="worry_elements[]" value="<?=$worry_element?>" <?=$checked?> >
+					
+				<?=$worry_element?>
+					</div>
+				<?php
+					}
+				?>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<!-- 戸建の様式 -->
+		<div class="w100 border-bottom">
+			<div class="pull-left w20 text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">		
+					<label for="detacheds">戸建の様式</label>
+				</div>
+			</div>
+			<?php $m_detacheds = get_post_meta( $post->ID, 'detacheds', true ); ?>
+			<div class="pull-left w80 border-left padding-tb8-l20">
+				<?php
+
+					$detacheds = array('和風', '洋風', '和モダン');
+					foreach ($detacheds as $pt_key => $detached) {
+
+					 	if ( isset($m_detacheds) && is_array( $m_detacheds ) && in_array( $detached, $m_detacheds ) ) {
+				            $checked = 'checked="checked"';
+				        } else {
+				            $checked = null;
+				        }
+
+				?>
+					<div class="check-item pull-left">
+						<input type="checkbox" name="detacheds[]" value="<?=$detached?>" <?=$checked?> >
+						<?=$detached?>
+					</div>
+				<?php
+					}
+				?>
+					<div class="clearfix"></div>
+					<div class="check-item pull-left w100">
+						<div class="pull-left w25">
+							<input type="checkbox" <?php
+
+								if (isset($m_detacheds) && is_array( $m_detacheds ) && array_key_exists('other', $m_detacheds) &&
+									!empty($m_detacheds['other'])) {
+									echo 'checked="checked"';
+								}
+							 ?>>その他（）
+						</div>
+						<div class="pull-left">
+							<input type="text" name="detacheds[other]" value="<?php 
+							if (isset($m_detacheds) && is_array( $m_detacheds ))  
+								echo $m_detacheds['other']; ?>">
+						</div>
+						<div class="clearfix"></div>
+					</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<!-- ハウスメーカー -->
+		<div class="w100 border-bottom bg-color-ddd">
+			<div class="pull-left w20 text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">		
+					<label for="housemakers">ハウスメーカー</label>
+				</div>
+			</div>
+			<?php $m_housemakers = get_post_meta( $post->ID, 'housemakers', true ); ?>
+			<div class="pull-left w80 border-left padding-tb8-l20">
+				<?php
+
+					$housemakers = array('住友林業', '一条工務店', 'ミサワホーム', '積水ハウス', 'セキスイハイム', 'パナホーム', 'ダイワハウス', '大成建設ハウジング', 'へーベルハウス', '三井ホーム');
+					foreach ($housemakers as $pt_key => $housemaker) {
+
+					 	if ( isset($m_housemakers) && is_array( $m_housemakers ) && in_array( $housemaker, $m_housemakers ) ) {
+				            $checked = 'checked="checked"';
+				        } else {
+				            $checked = null;
+				        }
+
+				?>
+					<div class="check-item pull-left">
+						<input type="checkbox" name="housemakers[]" value="<?=$housemaker?>" <?=$checked?> >
+						<?=$housemaker?>
+					</div>
+				<?php
+
+					}
+				?>
+					<div class="clearfix"></div>
+					<div class="check-item pull-left w100">
+						<div class="pull-left w25">
+							<input type="checkbox" <?php
+
+								if (isset($m_housemakers) && is_array( $m_housemakers ) && array_key_exists('other', $m_housemakers) &&
+									!empty($m_housemakers['other'])) {
+									echo 'checked="checked"';
+								}
+
+							 ?>>その他（）
+						</div>
+						<div class="pull-left">
+							<input type="text" name="housemakers[other]" value="<?php
+							if (isset($m_housemakers) && is_array( $m_housemakers )) 
+								echo $m_housemakers['other'];?>">
+						</div>
+						<div class="clearfix"></div>
+					</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<!-- キャッチ -->
+		<div class="w100 border-bottom">
+			<div class="pull-left w20 text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">		
+					<label for="catch">キャッチ</label><label class="red">&nbsp;(必須)</label>
+				</div>
+			</div>
+			<?php $m_catch = get_post_meta( $post->ID, 'catch', true ); ?>
+			<div class="pull-left w80 border-left padding-tb8-l20">
+				<input type="text" name="catch" class="w50" id="catch" value="<?php if (isset($m_catch)) {	echo $m_catch; } ?>">
+				<span class="red">20文字以内で入カ</span>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<!-- 色 -->
+		<div class="w100 bg-color-ddd parent">
+			<div class="pull-left w20 parent">
+				<div class="pull-left w30 padding-tb8-l20">
+					<label>色</label>
+				</div>
+				<div class="pull-left border-bottom border-left w70 padding-tb8-l20">
+					<p>外壁</p>
+					<p>標準色</p>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<?php $m_outwall_colors = get_post_meta( $post->ID, 'outwall_colors', true ); ?>
+			<div class="pull-left border-bottom  border-left w80 padding-tb8-l20">
+				<?php
+
+					$outwall_colors = array('SP-50', 'SP-70', 'SP-75', 'SP-80', 'SP-110', 'SP-111', 'SP-112', 'SP-120', 'SP-121', 'SP-127', 'SP-131', 'SP-133', 'SP-141', 'SP-147', 'SP-150', 'SP-167', 'SP-170', 'SP-185', 'SP-221', 'SP-223', 'SP-247', 'SP-310', 'SP-330', 'SP-336', 'SP-337', 'SP-347', 'SP-350', 'SP-352', 'SP-356', 'SP-357', 'SP-367', 'SP-376', 'SP-385' );
+					foreach ($outwall_colors as $outwall_color) {
+
+					 	if ( isset($m_outwall_colors) && is_array( $m_outwall_colors ) && in_array( $outwall_color, $m_outwall_colors ) ) {
+				            $checked = 'checked="checked"';
+				        } else {
+				            $checked = null;
+				        }
+
+				?>
+					<div class="check-item pull-left">
+						<input type="checkbox" name="outwall_colors[]" value="<?=$outwall_color?>" <?=$checked?> >
+						<?=$outwall_color?>
+					</div>
+				<?php
+
+					}
+				?>
+				
+					<div class="check-item-other pull-left">
+						<div class="pull-left w25">
+							<input type="checkbox" <?php
+
+								if (isset($m_outwall_colors) &&  is_array( $m_outwall_colors ) && array_key_exists('other', $m_outwall_colors) && 
+									!empty($m_outwall_colors['other'])) {
+									echo 'checked="checked"';
+								}
+
+							 ?>>特注色（）
+						</div>
+						<div class="pull-left">
+							<input type="text" name="outwall_colors[other]"  placeholder="特注色の場合入力" value="<?php
+							if (isset($m_outwall_colors) &&  is_array( $m_outwall_colors ))
+							echo $m_outwall_colors['other']; ?>">
+						</div>
+						<div class="clearfix"></div>
+					</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<div class="w100 bg-color-ddd parent">
+			<div class="pull-left w20 parent">
+				<div class="pull-left w30 padding-tb8-l20">
+					<label>&nbsp;</label>
+				</div>
+				<div class="pull-left border-bottom  border-left w70 padding-tb8-l20">
+					<p>外壁</p>
+					<p>水性ゾラコート</p>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<?php $m_outwall_waterzols = get_post_meta( $post->ID, 'outwall_waterzols', true );  ?>
+			<div class="pull-left border-bottom  border-left w80 padding-tb8-l20">
+				<?php
+
+					$outwall_waterzols = array( 'AZE-301', 'AZE-302', 'AZE-303', 'AZE-304', 'AZE-305', 'AZE-306', 'AZE-307', 'AZE-308', 'AZE-310', 'AZE-311', 'AZE-312', 'AZE-313', 'AZE-314', 'AZE-315', 'AZE-316', 'AZE-317', 'AZE-318', 'AZE-319', 'AZE-320', 'AZE-321', 'AZE-322', 'AZE-323', 'AZE-324', 'AZE-325', 'AZE-326', 'AZE-327', 'AZE-328', 'AZE-329', 'AZE-330' );
+
+					foreach ($outwall_waterzols as $outwall_waterzol) {
+
+					 	if ( isset($m_outwall_waterzols) && is_array( $m_outwall_waterzols ) && in_array( $outwall_waterzol, $m_outwall_waterzols ) ) {
+				            $checked = 'checked="checked"';
+				        } else {
+				            $checked = null;
+				        }
+
+				?>
+					<div class="check-item pull-left">
+						<input type="checkbox" name="outwall_waterzols[]" value="<?=$outwall_waterzol?>" <?=$checked?> >
+						<?=$outwall_waterzol?>
+					</div>
+				<?php
+
+					}
+				?>
+					<div class="check-item-other pull-left">
+						<div class="pull-left w25">
+							<input type="checkbox" <?php
+
+								if (isset($m_outwall_waterzols) && is_array( $m_outwall_waterzols ) && array_key_exists('other', $m_outwall_waterzols) &&
+									!empty($m_outwall_waterzols['other'])) {
+									echo 'checked="checked"';
+								}
+
+							 ?>>特注色（）
+						</div>
+						<div class="pull-left">
+							<input type="text" name="outwall_waterzols[other]" placeholder="特注色の場合入力" value="<?php 
+							if (isset($m_outwall_waterzols) && is_array( $m_outwall_waterzols )) 
+								echo $m_outwall_waterzols['other'];?>">
+						</div>
+						<div class="clearfix"></div>
+					</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<div class="w100 bg-color-ddd parent">
+			<div class="pull-left w20 parent">
+				<div class="pull-left w30 padding-tb8-l20">
+					<label>&nbsp;</label>
+				</div>
+				<div class="pull-left border-bottom border-left w70 padding-tb8-l20">
+					<p>外壁</p>
+					<p>コーティング</p>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<?php $m_outwall_coatings = get_post_meta( $post->ID, 'outwall_coatings', true ); ?>
+			<div class="pull-left border-bottom  border-left w80 padding-tb8-l20">
+				<?php
+					$outwall_coatings = array('セラシリコンクリアー', 'パワーフッソクリアー', 'グランコートGC');
+					foreach ($outwall_coatings as $outwall_coating) {
+
+					 	if ( isset($m_outwall_coatings) && is_array( $m_outwall_coatings ) && in_array( $outwall_coating, $m_outwall_coatings ) ) {
+				            $checked = 'checked="checked"';
+				        } else {
+				            $checked = null;
+				        }
+
+				?>
+					<div class="check-item-w33 pull-left">
+					<input type="checkbox" name="outwall_coatings[]" value="<?=$outwall_coating?>" <?=$checked?> >
+					
+				<?=$outwall_coating?>
+					</div>
+				<?php
+					}
+				?>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<div class="w100 bg-color-ddd parent">
+			<div class="pull-left w20 parent">
+				<div class="pull-left w30 padding-tb8-l20">
+					<label>&nbsp;</label>
+				</div>
+				<div class="pull-left border-bottom border-left w70 padding-tb8-l20">
+					<p>屋根遮熱</p>
+					<p>標準色</p>	
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<?php $m_roof_hscolors = get_post_meta( $post->ID, 'roof_hscolors', true ); ?>
+			<div class="pull-left border-bottom  border-left w80 padding-tb8-l20">
+				<?php
+					$roof_hscolors = array( '新クリーム', 'リリーホワイト', 'シルバーホワイト', 'ミストグリーン', 'サンタンオレンジ', 'グレー', 'アンバーブラウン', 'アイビーグリーン', 'フォレストグリーン', 'セピアブラウン', 'コーヒーブラウン', 'カーボングレー', 'ネオブラック');
+
+					foreach ($roof_hscolors as $roof_hscolor) {
+
+					 	if (isset($m_roof_hscolors) && is_array( $m_roof_hscolors ) && in_array( $roof_hscolor, $m_roof_hscolors ) ) {
+				            $checked = 'checked="checked"';
+				        } else {
+				            $checked = null;
+				        }
+
+				?>
+					<div class="check-item-w33 pull-left">
+						<input type="checkbox" name="roof_hscolors[]" value="<?=$roof_hscolor?>" <?=$checked?> >
+						<?=$roof_hscolor?>
+					</div>
+				<?php
+
+					}
+				?>
+					<div class="check-item-other pull-left ">
+						<div class="pull-left w25">
+							<input type="checkbox" <?php
+
+								if (isset($m_roof_hscolors) && is_array( $m_roof_hscolors ) && array_key_exists('other', $m_roof_hscolors) && 
+									!empty($m_roof_hscolors['other'])) {
+									echo 'checked="checked"';
+								}
+
+							 ?>>特注色（）
+						</div>
+						<div class="pull-left">
+							<input type="text" name="roof_hscolors[other]" placeholder="特注色の場合入力" value="<?php 
+							if (isset($m_roof_hscolors) && is_array( $m_roof_hscolors ))
+								echo $m_roof_hscolors['other'];?>">
+						</div>
+						<div class="clearfix"></div>
+					</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<div class="w100 border-bottom bg-color-ddd parent">
+			<div class="pull-left w20 parent">
+				<div class="pull-left w30 padding-tb8-l20">
+					<label>&nbsp;</label>
+				</div>
+				<div class="pull-left border-left w70 padding-tb8-l20">
+					<p>屋根</p>
+					<p>標準色</p>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<?php $m_roof_standcols = get_post_meta( $post->ID, 'roof_standcols', true ); ?>
+			<div class="pull-left  border-left w80 padding-tb8-l20">
+				<?php
+					$roof_standcols = array( 'イエローオーカー', 'ガーネットオレンジ', 'チョコレート', 'カーボングレー', '新ブラウン', 'グレー', 'セピア', 'ビスタブラウン', 'ブルー', 'ナスコン', 'アイビーグリーン', 'ネスモグリーン', 'ネオブラック');
+
+					foreach ($roof_standcols as $roof_standcol) {
+
+					 	if ( isset($m_roof_standcols) && is_array( $m_roof_standcols ) && in_array( $roof_standcol, $m_roof_standcols ) ) {
+				            $checked = 'checked="checked"';
+				        } else {
+				            $checked = null;
+				        }
+
+				?>
+					<div class="check-item-w33 pull-left">
+						<input type="checkbox" name="roof_standcols[]" value="<?=$roof_standcol?>" <?=$checked?> >
+						<?=$roof_standcol?>
+					</div>
+				<?php
+
+					}
+				?>
+					<div class="check-item-other pull-left">
+						<div class="pull-left w25">
+							<input type="checkbox" <?php
+
+								if (isset($m_roof_standcols) && is_array( $m_roof_standcols ) && array_key_exists('other', $m_roof_standcols) && 
+									!empty($m_roof_standcols['other'])) {
+									echo 'checked="checked"';
+								}
+
+							 ?>>特注色（）
+						</div>
+						<div class="pull-left">
+							<input type="text" name="roof_standcols[other]" placeholder="特注色の場合入力" value="<?php 
+							if (isset($m_roof_standcols) && is_array( $m_roof_standcols ))
+								echo $m_roof_standcols['other'];?>">
+						</div>
+						<div class="clearfix"></div>
+					</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<!-- 写真 -->
+		<div class="w100 parent">
+			<div class="pull-left w20 parent">
+				<div class="pull-left w30 padding-tb8-l20">
+					<p>&nbsp;写真</p>
+					<p class="red">(必須)</p>
+				</div>
+				<div class="pull-left border-bottom border-left w70 padding-tb8-l20">
+					<p>Before</p>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<?php $m_before_photo = get_post_meta( $post->ID, 'before_photo', true );?>
+			<div class="pull-left border-bottom  border-left w80 padding-t10">
+				<?php
+				for ($i=0; $i < 4; $i++) { 
+				?>
+				<div>
+					<div class="pull-left w10 padding-tb8-l20 border-box">
+						<label>写真<?=($i+1)?></label>
+					</div>
+					<div class="pull-left w45 border-box padding-tb5">
+						<input type="text" name="before_photo[<?=$i?>]" id="bphoto_<?=$i?>" class="meta-image regular-text w100" value="<?php if(isset($m_before_photo[$i]))  echo $m_before_photo[$i]; ?>">
+					</div>
+					<div class="pull-left w45 border-box padding-tb5">
+						<input type="button" class="button image-upload w45 bg-color-pbtn white" photo-id="bphoto_<?=$i?>" value="面像を選択">
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<?php
+				}
+				?>
+				<div class="red margin-t10 padding-tb8-l20">写真は1MB以内をアップロードしてください。</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<div class="w100 border-bottom parent">
+			<div class="pull-left w20 parent">
+				<div class="pull-left w30 padding-tb8-l20">
+					<p>&nbsp;</p>
+				</div>
+				<div class="pull-left border-left w70 padding-tb8-l20">
+					<p>After</p>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<?php $m_after_photo = get_post_meta( $post->ID, 'after_photo', true ); ?>
+			<div class="pull-left  border-left w80  padding-t10">
+				<?php
+				for ($i=0; $i < 4; $i++) { 
+				?>
+				<div>
+					<div class="pull-left w10 padding-tb8-l20 border-box">
+						<label>写真<?=($i+1)?></label>
+					</div>
+					<div class="pull-left w45 border-box padding-tb5">
+						<input type="text" name="after_photo[<?=$i?>]" class="w100" id="aphoto_<?=$i?>" class="meta-image regular-text" value="<?php if(isset($m_after_photo[$i]))  echo $m_after_photo[$i]; ?>">
+					</div>
+					<div class="pull-left w45 border-box padding-tb5">
+						<input type="button" class="button image-upload w45 bg-color-pbtn white" photo-id="aphoto_<?=$i?>" value="面像を選択">
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<?php
+				}
+				?>
+				<div class="red margin-t10 padding-tb8-l20">写真は1MB以内をアップロードしてください。</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<!-- 写真のコメント (必須) -->
+		<div class="w100">
+			<div class="pull-left w20 text-lalign bold font-14">
+				<div class="padding-tb8-l20 ">		
+					<label>写真のコメント</label>
+					<p class="red">&nbsp;&nbsp;&nbsp;(必須)</p>
+				</div>
+			</div>
+			<?php  $m_before_comment = get_post_meta( $post->ID, 'before_comment', true ); 
+			$m_after_comment = get_post_meta( $post->ID, 'after_comment', true );  ?>
+			<div class="pull-left w80 border-left">
+				<div class="margin-t20">
+					<div class="pull-left w10">&nbsp;</div>
+					<div class="pull-left w45 text-calign">Before</div>
+					<div class="pull-left w45 text-calign">After</div>
+					<div class="clearfix"></div>
+				</div>
+				<?php
+				for ($j=0; $j < 4; $j++) { 
+				?>
+				<div>
+					<div class="pull-left w10 padding-tb8-l20 border-box">写真<?=$j?></div>
+					<div class="pull-left w45 border-box padding-tb5">
+						<input type="text" name="before_comment[<?=$j?>]" class="w100" id="bcomment_<?=$j?>" value="<?php if ( isset($m_before_comment)) {	echo $m_before_comment[$j]; } ?>">
+					</div>
+					<div class="pull-left w45 border-box padding-tb5">
+						<input type="text" name="after_comment[<?=$j?>]" class="w100" id="acomment_<?=$j?>" value="<?php if ( isset($m_after_comment)) {	echo $m_after_comment[$j]; } ?>">
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<?php
+				}
+				?>
+			</div>
+			<div class="clearfix"></div>
+		</div>	
+	</div>
+
+	<script>
+    jQuery(document).ready(function ($) {
+		// Instantiates the variable that holds the media library frame.
+		var meta_image_frame;
+		var meta_image;
+		var meta_image_id ;
+		// Runs when the image button is clicked.
+		$('.image-upload').click(function (e) {        
+		// Prevents the default action from occuring.
+			e.preventDefault();
+			meta_image_id = $(this).attr('photo-id');
+			meta_image = $(this).parent().parent().find('#' + meta_image_id);
+			// If the frame already exists, re-open it.
+			if (meta_image_frame) {
+				meta_image_frame.open();
+				return;
+			}
+			// Sets up the media library frame
+			meta_image_frame = wp.media.frames.meta_image_frame = wp.media({
+				title: meta_image.title,
+				button: {
+					text: meta_image.button
+				}
+			});
+			// Runs when an image is selected.
+			meta_image_frame.on('select', function () {
+				// Grabs the attachment selection and creates a JSON representation of the model.
+				var media_attachment = meta_image_frame.state().get('selection').first().toJSON();
+				// Sends the attachment URL to our custom image input field.
+				meta_image.val(media_attachment.url); 
+			});    
+			// Opens the media library frame.
+			meta_image_frame.open();
+		});
+    });
+	</script>
+
+  	<?php 
+}
+
+//Next we need two simple error handling functions:
+//Error handling function for use with save_car_data function below it:
+
+
+add_action('admin_notices', 'handle_cases_errors');
+
+/**
+ * Writes an error message to the screen if error is thrown in save_car_data function
+ * 
+ */
+
+function handle_cases_errors() {
+	//If there are no errors, then exit the function
+	if(!( $errors = get_transient('settings_errors'))) {
+		return;
+	}
+	//Otherwise, build the list of errors that exist in the settings errors
+	$message = '<div id="acme-message" class="error below-h2"><p><ul>';
+	foreach($errors as $error) {
+		$message .= '<li>' . $error['message'] . '</li>';
+	}
+	$message .= '<li>again input!</li></ul></p></div><!– #error –>';
+	//Write error messages to the screen
+	echo $message;
+	//Clear and the transient and unhook any other notices so we don’t see duplicate messages
+	delete_transient('settings_errors');
+	remove_action('admin_notices', 'handle_cases_errors');
+}
+
+function cases_error($slug,$err){
+    add_settings_error(
+        $slug,
+        $slug,
+        $err,
+        'error'
+    );
+    set_transient('settings_errors', get_settings_errors(), 30);
+}
+
+function validate_errors($fields){
+	$error_list = array();
+
+	if ( empty($fields['area']) ) 
+		array_push($error_list, array('area_missing', 'Input area!'));
+
+	if ( empty($fields['catch'])) {
+		array_push($error_list, array('catch_missing', 'Input catch!'));
+	}else if (strlen($fields['catch']) > 20) {
+		array_push($error_list, array('catchover_missing', 'catch 20文字以内で入カ!'));			
+	}
+
+	for ($i=0; $i < 4; $i++) { 
+		if (empty($fields['before_photo'][$i]) || empty($fields['after_photo'][$i])) {
+			array_push($error_list, array('photo_missing', 'Input photo all!'));
+			break;
+		}
+	}
+
+	for ($j=0; $j < 4; $j++) { 	
+		if (empty($fields['before_comment'][$j]) || empty($fields['after_comment'][$j])) {
+			array_push($error_list, array('comment_missing', 'Input comment all!'));
+			break;
+		}	
+	}
+
+	foreach ($error_list as $errort) {
+		cases_error($errort[0],$errort[1]);
+	}
+
+	return empty($error_list);
+}
+
+
+// Save custom post
+function save_cases_fields_meta( $post_id ) {   
+	// verify nonce
+	if ( isset($_POST['cases_meta_box_nonce']) 
+			&& !wp_verify_nonce( $_POST['cases_meta_box_nonce'], basename(__FILE__) ) ) {
+			return $post_id; 
+		}
+	// check autosave
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return $post_id;
+	}
+	// check permissions
+	if (isset($_POST['post_type'])) { //Fix 2
+        if ( 'page' === $_POST['post_type'] ) {
+            if ( !current_user_can( 'edit_page', $post_id ) ) {
+                return $post_id;
+            } elseif ( !current_user_can( 'edit_post', $post_id ) ) {
+                return $post_id;
+            }  
+        }
+    }
+	if ( isset($_POST['post_type']) && validate_errors($_POST)) {	
+		update_cases_all_meta($post_id, $_POST);
+	}
+}
+add_action( 'save_post', 'save_cases_fields_meta' );
+
+function update_cases_all_meta($post_id, $news)
+{
+
+	$area = $news['area'];
+	update_post_meta( $post_id, 'area', $area );
+
+	$construction_years = $news['construction_years'];
+	update_post_meta( $post_id, 'construction_years', $construction_years );
+
+	$outwall_type = $news['outwall_type'];
+	update_post_meta( $post_id, 'outwall_type', $outwall_type );
+
+	$case_types = $news['case_types'];
+	update_post_meta( $post_id, 'case_types', $case_types );
+
+	$out_square = $news['out_square'];
+	update_post_meta( $post_id, 'out_square', $out_square );
+
+	$roof_square = $news['roof_square'];
+	update_post_meta( $post_id, 'roof_square', $roof_square );
+
+	$price = $news['price'];
+	update_post_meta( $post_id, 'price', $price );
+
+	$worry_elements = $news['worry_elements'];
+	update_post_meta( $post_id, 'worry_elements', $worry_elements );
+
+	$detacheds = $news['detacheds'];
+	update_post_meta( $post_id, 'detacheds', $detacheds );
+
+	$housemakers = $news['housemakers'];
+	update_post_meta( $post_id, 'housemakers', $housemakers );
+
+	$catch = $news['catch'];
+	update_post_meta( $post_id, 'catch', $catch );
+
+	$outwall_colors = $news['outwall_colors'];
+	update_post_meta( $post_id, 'outwall_colors', $outwall_colors );
+
+	$outwall_waterzols = $news['outwall_waterzols'];
+	update_post_meta( $post_id, 'outwall_waterzols', $outwall_waterzols );
+
+	$outwall_coatings = $news['outwall_coatings'];
+	update_post_meta( $post_id, 'outwall_coatings', $outwall_coatings );
+
+	$roof_hscolors = $news['roof_hscolors'];
+	update_post_meta( $post_id, 'roof_hscolors', $roof_hscolors );
+
+	$roof_standcols = $news['roof_standcols'];
+	update_post_meta( $post_id, 'roof_standcols', $roof_standcols );
+
+	$before_photo = $news['before_photo'];
+	update_post_meta( $post_id, 'before_photo', $before_photo );
+
+	$after_photo = $news['after_photo'];
+	update_post_meta( $post_id, 'after_photo', $after_photo );
+
+	$before_comment = $news['before_comment'];
+	update_post_meta( $post_id, 'before_comment', $before_comment );
+
+	$after_comment = $news['after_comment'];
+	update_post_meta( $post_id, 'after_comment', $after_comment );
+}
+
+
+
+/*Custom Widget*/
+
+// Register and load the widget
+function wpb_load_widget() {
+    register_widget( 'wpb_horizon_3_image_widget' );
+    register_widget( 'wpb_search_right_top_3_btn_widget' );
+    register_widget( 'wpb_vertical_rank_3_image_widget' );
+    register_widget( 'wpb_vertical_rank_5_image_widget' );
+}
+add_action( 'widgets_init', 'wpb_load_widget' );
+ 
+// Creating the widget 
+class wpb_horizon_3_image_widget extends WP_Widget {
+ 
+	function __construct() {
+
+		parent::__construct(
+		 
+			// Base ID of your widget
+			'wpb_horizon_3_image_widget', 
+			 
+			// Widget name will appear in UI
+			__('Sanwa Horizon 3 Photo Show Widget', 'wpb_widget_domain'), 
+			 
+			// Widget description
+			array( 'description' => __( 'Sanwa Theme Custom Widget', 'wpb_widget_domain' ), ) 
+		);
+
+	}
+ 
+	// Creating widget front-end
+ 
+	public function widget( $args, $instance ) {
+
+		$image_url = get_stylesheet_directory_uri() . '/assets/images/';
+
+		$title = apply_filters( 'widget_title', $instance['title'] );	  	
+	 
+		// before and after widget arguments are defined by themes
+		echo $args['before_widget'];
+
+		?>
+		<p class="list_images_feature">
+			<img src="<?=$image_url?>arrow.png"/>
+			<?php
+			if ( ! empty( $title ) )
+				echo $args['before_title'] . $title . $args['after_title'];
+			?>
+		</p>
+		<div class="together_image">
+			<img src="<?=$image_url?>3.jpg"/>
+			<p>明るいイメージに</p>
+		</div>
+		<div class="together_image">
+			<img src="<?=$image_url?>4.jpg"/>
+			<p>明るいイメージに</p>
+		</div>
+		<div class="together_image together_image-last">
+			<img src="<?=$image_url?>1.jpg"/>
+			<p>明るいイメージに</p>
+		</div>
+		<div class="clearfix"></div> <?php	
+
+		echo $args['after_widget'];
+	}
+         
+	// Widget Backend 
+	public function form( $instance ) {
+
+		if ( isset( $instance[ 'title' ] ) ) {
+			$title = $instance[ 'title' ];
+		}
+		else {
+			$title = __( 'New title', 'wpb_widget_domain' );
+		}
+		// Widget admin form
+		?>
+
+		<p>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
+			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
+		</p>
+
+		<?php 
+	}
+     
+	// Updating widget replacing old instances with new
+	public function update( $new_instance, $old_instance ) {
+		$instance = array();
+		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+
+		return $instance;
+	}
+
+} // Class wpb_widget ends here
+
+// Creating the widget 
+class wpb_search_right_top_3_btn_widget extends WP_Widget {
+ 
+	function __construct() {
+
+		parent::__construct(
+		 
+			// Base ID of your widget
+			'wpb_search_right_top_3_btn_widget', 
+			 
+			// Widget name will appear in UI
+			__('Sanwa Search Right Top 3 Button Widget', 'wpb_widget_domain'), 
+			 
+			// Widget description
+			array( 'description' => __( 'Sanwa Theme Custom Widget', 'wpb_widget_domain' ), ) 
+		);
+
+	}
+ 
+	// Creating widget front-end
+ 
+	public function widget( $args, $instance ) {
+
+		$title = apply_filters( 'widget_title', $instance['title'] );	  	
+	 
+		// before and after widget arguments are defined by themes
+		echo $args['before_widget'];
+		?>
+		<div id="search_buttons">
+			<div class="search_button">
+				<p>バナー</p>
+			</div>
+			<div class="search_button">
+				<p>バナー</p>
+			</div>
+			<div class="search_button">
+				<p>バナー</p>
+			</div>
+			<button id="banner_search" class="search_submit_button" style=""><p>再検索</p></button>
+		</div>
+		<?php	
+
+		echo $args['after_widget'];
+	}
+         
+	// Widget Backend 
+	public function form( $instance ) {
+
+		if ( isset( $instance[ 'title' ] ) ) {
+			$title = $instance[ 'title' ];
+		}
+		else {
+			$title = __( 'New title', 'wpb_widget_domain' );
+		}
+		// Widget admin form
+		?>
+
+		<p>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
+			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
+		</p>
+
+		<?php 
+	}
+     
+	// Updating widget replacing old instances with new
+	public function update( $new_instance, $old_instance ) {
+		$instance = array();
+		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+
+		return $instance;
+	}
+
+} // Class wpb_widget ends here
+
+// Creating the widget 
+class wpb_vertical_rank_3_image_widget extends WP_Widget {
+ 
+	function __construct() {
+
+		parent::__construct(
+		 
+			// Base ID of your widget
+			'wpb_vertical_rank_3_image_widget', 
+			 
+			// Widget name will appear in UI
+			__('Sanwa Vertical Rank 3 Image Widget', 'wpb_widget_domain'), 
+			 
+			// Widget description
+			array( 'description' => __( 'Sanwa Theme Custom Widget', 'wpb_widget_domain' ), ) 
+		);
+
+	}
+ 
+	// Creating widget front-end
+ 
+	public function widget( $args, $instance ) {
+
+		$image_url = get_stylesheet_directory_uri() . '/assets/images/';
+
+		$title = apply_filters( 'widget_title', $instance['title'] );	  	
+	 
+		// before and after widget arguments are defined by themes
+		echo $args['before_widget'];
+
+		if ( ! empty( $title ) )
+			echo $args['before_title'] . $title . $args['after_title'];
+		?>
+
+		<div class="sp_rank_image sp_rank_gold">
+			<img src="../wp-content/uploads/1.jpg"/>
+			<p class="sp_rank_text">
+				<img src="<?=$image_url?>gold.png"  style="width: 70px; height: 56px; float: left;" />よく見られている事例ン例ンランキング
+			</p>
+			<p class="sp_rank_view">12000 views</p>
+		</div>
+		<div class="sp_rank_image sp_rank_silver">
+			<img src="../wp-content/uploads/2.jpg"/>
+			<p class="sp_rank_text">
+				<img src="<?=$image_url?>silver.png"  style="width: 70px; height: 56px; float: left;" />よく見られている事例ン例ンランキング
+			</p>
+			<p class="sp_rank_view">12000 views</p>
+		</div>
+		<div class="sp_rank_image sp_rank_bronze">
+			<img src="../wp-content/uploads/5.jpg"/>
+			<p class="sp_rank_text">
+				<img src="<?=$image_url?>brozen.png"  style="width: 70px; height: 56px; float: left;" />よく見られている事例ン例ンランキング
+			</p>
+			<p class="sp_rank_view">12000 views</p>
+		</div>
+
+		<?php	
+
+		echo $args['after_widget'];
+	}
+         
+	// Widget Backend 
+	public function form( $instance ) {
+
+		if ( isset( $instance[ 'title' ] ) ) {
+			$title = $instance[ 'title' ];
+		}
+		else {
+			$title = __( 'New title', 'wpb_widget_domain' );
+		}
+		// Widget admin form
+		?>
+
+		<p>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
+			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
+		</p>
+
+		<?php 
+	}
+     
+	// Updating widget replacing old instances with new
+	public function update( $new_instance, $old_instance ) {
+		$instance = array();
+		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+
+		return $instance;
+	}
+
+} // Class wpb_widget ends here
+
+// Creating the widget 
+class wpb_vertical_rank_5_image_widget extends WP_Widget {
+ 
+	function __construct() {
+
+		parent::__construct(
+		 
+			// Base ID of your widget
+			'wpb_vertical_rank_5_image_widget', 
+			 
+			// Widget name will appear in UI
+			__('Sanwa Vertical Rank 5 Image Widget', 'wpb_widget_domain'), 
+			 
+			// Widget description
+			array( 'description' => __( 'Sanwa Theme Custom Widget', 'wpb_widget_domain' ), ) 
+		);
+
+	}
+ 
+	// Creating widget front-end
+ 
+	public function widget( $args, $instance ) {
+
+		$image_url = get_stylesheet_directory_uri() . '/assets/images/';
+
+		$title = apply_filters( 'widget_title', $instance['title'] );	  	
+	 
+		// before and after widget arguments are defined by themes
+		echo $args['before_widget'];
+
+		if ( ! empty( $title ) )
+			echo $args['before_title'] . $title . $args['after_title'];
+		?>
+
+		<?php
+		for ($i=0; $i < 5; $i++) { 
+		?>
+
+		<div class="sp_new_post sp_new_1">
+			<div class="sp_new_post_image">
+				<img src="<?=$image_url?>1.jpg"/>
+			</div>
+			<p class="sp_new_post_text">
+				テキストテキスト
+			</p>
+			<p class="sp_new_post_text">
+				A21
+			</p>
+			<p class="sp_new_post_text">
+				ほとんどあなたはあなたとか私の人真似ののから右として云うのたますないて、
+			</p>
+		</div>
+		
+		<?php
+		}
+		?>
+
+		<?php	
+
+		echo $args['after_widget'];
+	}
+         
+	// Widget Backend 
+	public function form( $instance ) {
+
+		if ( isset( $instance[ 'title' ] ) ) {
+			$title = $instance[ 'title' ];
+		}
+		else {
+			$title = __( 'New title', 'wpb_widget_domain' );
+		}
+		// Widget admin form
+		?>
+
+		<p>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
+			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
+		</p>
+
+		<?php 
+	}
+     
+	// Updating widget replacing old instances with new
+	public function update( $new_instance, $old_instance ) {
+		$instance = array();
+		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+
+		return $instance;
+	}
+
+} // Class wpb_widget ends here
+
+/*Widget Area */
+
+function wpmu_register_widgets() {
+
+	// single-cases.php (left bottom part for detail page) - 
+	register_sidebar( array(
+		'name' => __( 'Three Image Widget Content', 'wpmu' ),
+		'id' => 'three-image-widget-area',
+		'before_widget' => '<div id="%1$s" class="sanwa-widget %2$s list_images">',
+		'after_widget' => '</div>',
+		'before_title' => '<span>',
+		'after_title' => '</span>'
+	));
+	
+	// single-cases.php (right part for detail page) - 
+	register_sidebar( array(
+		'name' => __( 'Search Right Page Widget Area', 'wpmu' ),
+		'id' => 'search-right-page-widget-area',
+		'before_widget' => '<div id="%1$s" class="sanwa-widget %2$s">',
+		'after_widget' => '</div>',
+		'before_title' => '<span>',
+		'after_title' => '</span>'
+	));
+
+	// sanwasearchwidget.php (right part for search page) - 
+	register_sidebar( array(
+		'name' => __( 'Search Page Ranking Widget Area', 'wpmu' ),
+		'id' => 'search-page-ranking-widget-area',
+		'before_widget' => '<div id="%1$s" class="sanwa-widget %2$s sp_widget_part">',
+		'after_widget' => '</div>',
+		'before_title' => '<p class="sp_content_part_title">',
+		'after_title' => '</p>'
+	));
+}
+add_action( 'widgets_init', 'wpmu_register_widgets' );
